@@ -1,0 +1,9 @@
+<template>
+  <input
+    type="radio"
+    name="dought"
+    value="light"
+    class="visually-hidden"
+    checked
+  />
+</template>
