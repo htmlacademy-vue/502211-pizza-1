@@ -6,22 +6,40 @@
       <div class="sheet__content dough">
         <!-- Отрисовываем виды теста -->
         <label
-          v-for="onePizza in pizza.dough"
-          :key="onePizza.id"
-          :title="onePizza.name"
+          v-for="pizza in dough"
+          :key="pizza.id"
+          :title="pizza.name"
           class="dough__input dough__input--light"
         >
-          <input
-            type="radio"
-            name="dought"
+          <RadioButton
+            name="dough"
             value="light"
-            class="visually-hidden"
-            checked
+            :checked="pizza.id === dough[0].id"
           />
-          <b>{{ onePizza.name }}</b>
-          <span>{{ onePizza.description }}</span>
+          <b>{{ pizza.name }}</b>
+          <span>{{ pizza.description }}</span>
         </label>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+// импортируем компоненты
+import RadioButton from "@/common/components/RadioButton";
+
+export default {
+  name: "BuilderDoughSelector",
+  // подключаем компоненты
+  components: {
+    RadioButton,
+  },
+  // получение свойств из родительского компонента
+  props: {
+    dough: {
+      type: Array,
+      required: true,
+    },
+  },
+};
+</script>

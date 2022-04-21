@@ -4,11 +4,14 @@
       <div class="content__wrapper">
         <h1 class="title title--big">Конструктор пиццы</h1>
 
-        <BuilderDoughSelector />
+        <BuilderDoughSelector :dough="pizza.dough" />
 
-        <BuilderSizeSelector />
+        <BuilderSizeSelector :sizes="pizza.sizes" />
 
-        <BuilderIngredintsSelector />
+        <BuilderIngredintsSelector
+          :sauces="pizza.sauces"
+          :ingredients="ingredients"
+        />
 
         <BuilderPizzaView />
 
@@ -33,10 +36,16 @@ export default {
   name: "IndexHome",
   // подключаем данные
   data() {
+    const ingredients = pizza.ingredients.map((item) => ({
+      ...item,
+      amount: 0,
+    }));
+
     return {
       misc,
       pizza,
       user,
+      ingredients,
     };
   },
   // подключаем компоненты

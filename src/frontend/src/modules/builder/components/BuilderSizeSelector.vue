@@ -6,20 +6,39 @@
       <div class="sheet__content diameter">
         <!-- Отрисовываем виды размеров -->
         <label
-          v-for="onePizza in pizza.sizes"
-          :key="onePizza.id"
-          :title="onePizza.name"
+          v-for="size in sizes"
+          :key="size.id"
+          :title="size.name"
           class="diameter__input diameter__input--small"
         >
-          <input
-            type="radio"
+          <RadioButton
             name="diameter"
             value="small"
-            class="visually-hidden"
+            :checked="size.id === sizes[0].id"
           />
-          <span>{{ onePizza.name }}</span>
+          <span>{{ size.name }}</span>
         </label>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+// импортируем компоненты
+import RadioButton from "@/common/components/RadioButton";
+
+export default {
+  name: "BuilderSizeSelector",
+  // подключаем компоненты
+  components: {
+    RadioButton,
+  },
+  // получение свойств из родительского компонента
+  props: {
+    sizes: {
+      type: Array,
+      required: true,
+    },
+  },
+};
+</script>
