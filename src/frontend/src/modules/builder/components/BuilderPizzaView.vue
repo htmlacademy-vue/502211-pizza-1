@@ -1,47 +1,95 @@
 <template>
-  <div class="content__pizza">
-    <label class="input">
-      <span class="visually-hidden">Название пиццы</span>
-      <input
-        type="text"
-        name="pizza_name"
-        placeholder="Введите название пиццы"
-      />
-    </label>
-
-    <AppDrop @drop="onDrop">
-      <div class="content__constructor">
-        <div class="pizza pizza--foundation--big-tomato">
-          <div class="pizza__wrapper">
-            <div class="pizza__filling pizza__filling--ananas"></div>
-            <div class="pizza__filling pizza__filling--bacon"></div>
-            <div class="pizza__filling pizza__filling--cheddar"></div>
-          </div>
+  <div class="content__constructor">
+    <div class="pizza" :class="getCustomPizzaClass">
+      <AppDrop @drop="itemDropHandler">
+        <div class="pizza__wrapper">
+          <div
+            v-for="item in selectedIngredients"
+            :key="item.id"
+            class="pizza__filling"
+            :class="getPizzaFillingClass(item)"
+          />
         </div>
-      </div>
-    </AppDrop>
-
-    <BuilderPriceCounter />
+      </AppDrop>
+    </div>
   </div>
 </template>
 
 <script>
 // импортируем компоненты
-import BuilderPriceCounter from "@/modules/builder/components/BuilderPriceCounter";
 import AppDrop from "@/common/components/AppDrop";
+import {
+  ingredientsMap,
+  MAX_INGREDIENTS_NUMBER,
+  sauceMap,
+  doughClassMap,
+} from "@/common/constants";
 
 export default {
-  name: "BuilderPizzaView",
+  name: "PizzaView",
+  // подключаем данные
+  data() {
+    return {
+      ingredientsMap,
+    };
+  },
   // подключаем компоненты
   components: {
-    BuilderPriceCounter,
     AppDrop,
+  },
+  // получение свойств из родительского компонента
+  props: {
+    selectedIngredients: {
+      type: Object,
+      required: true,
+    },
+    currentDough: {
+      type: String,
+      required: true,
+    },
+    currentSauce: {
+      type: String,
+      required: true,
+    },
+  },
+  // дополнительные функции
+  computed: {
+    getCustomPizzaClass() {
+      return `pizza--foundation--${doughClassMap[this.currentDough]}-${
+        sauceMap[this.currentSauce]
+      }`;
+    },
   },
   // добавили методы
   methods: {
-    onDrop(ingredient) {
-      this.$emit("on-drop", ingredient);
+    getPizzaFillingClass(item) {
+      let additionalIngredientsClass = "";
+      if (item.amount === 2) {
+        additionalIngredientsClass = "pizza__filling--second";
+      } else if (item.amount === 3) {
+        additionalIngredientsClass = "pizza__filling--third";
+      }
+      return `pizza__filling--${
+        ingredientsMap[item.name]
+      } ${additionalIngredientsClass}`;
+    },
+    itemDropHandler(item) {
+      const ingredients = { ...this.selectedIngredients };
+      if (ingredients[item.name]) {
+        if (ingredients[item.name].amount !== MAX_INGREDIENTS_NUMBER) {
+          ingredients[item.name].amount++;
+          this.$emit("change", ingredients);
+        }
+      } else {
+        ingredients[item.name] = {
+          ...item,
+          amount: 1,
+        };
+        this.$emit("change", ingredients);
+      }
     },
   },
 };
 </script>
+
+<style lang="scss" scoped></style>

@@ -4,40 +4,22 @@
       <h2 class="title title--small sheet__title">Выберите ингредиенты</h2>
 
       <div class="sheet__content ingredients">
-        <div class="ingredients__sauce">
-          <p>Основной соус:</p>
-          <!-- Отрисовываем виды соусов -->
-          <label
-            v-for="sauce in sauces"
-            :key="sauce.id"
-            :title="sauce.name"
-            class="radio ingredients__input"
-          >
-            <RadioButton
-              name="sauce"
-              value="tomato"
-              :checked="sauces.id === sauces[0].id"
-            />
-            <span>{{ sauce.name }}</span>
-          </label>
-        </div>
+        <RadioButton
+          :items="sauces"
+          :itemMap="sauceMap"
+          :itemName="ITEMS_INPUT_DATA.SAUCE.ITEM_NAME"
+          :containerMessage="ITEMS_INPUT_DATA.SAUCE.CONTAINER_MESSAGE"
+          :value="currentSauce"
+          @change="$emit('change', $event)"
+        />
 
-        <div class="ingredients__filling">
-          <p>Начинка:</p>
-          <!-- Отрисовываем виды начинки -->
-          <ul class="ingredients__list">
-            <li
-              v-for="ingredient in ingredients"
-              :key="ingredient.id"
-              :title="ingredient.name"
-              class="ingredients__item"
-            >
-              <SelectorItem :ingredient="ingredient" />
-
-              <ItemCounter :ingredient="ingredient" />
-            </li>
-          </ul>
-        </div>
+        <IngredientsFilling
+          :ingredients="ingredients"
+          :selectedIngredients="selectedIngredients"
+          @blur="$emit('blur', $event)"
+          @plusButtonClick="$emit('plusButtonClick', $event)"
+          @minusButtonClick="$emit('minusButtonClick', $event)"
+        />
       </div>
     </div>
   </div>
@@ -45,28 +27,44 @@
 
 <script>
 // импортируем компоненты
-import SelectorItem from "@/common/components/SelectorItem";
-import ItemCounter from "@/common/components/ItemCounter";
-import RadioButton from "@/common/components/RadioButton";
+import IngredientsFilling from "./BuilderIngredientsFillingSelector.vue";
+import RadioButton from "@/common/components/RadioButton.vue";
+import { sauceMap, ITEMS_INPUT_DATA } from "@/common/constants";
 
 export default {
-  name: "BuilderIngredientsSelector",
+  name: "IngredientsSelector",
+  // подключаем данные
+  data() {
+    return {
+      sauceMap,
+      ITEMS_INPUT_DATA,
+    };
+  },
   // подключаем компоненты
   components: {
-    SelectorItem,
-    ItemCounter,
+    IngredientsFilling,
     RadioButton,
   },
   // получение свойств из родительского компонента
   props: {
     sauces: {
       type: Array,
-      default: () => [],
+      required: true,
     },
     ingredients: {
       type: Array,
-      default: () => [],
+      required: true,
+    },
+    currentSauce: {
+      type: String,
+      required: true,
+    },
+    selectedIngredients: {
+      type: Object,
+      required: true,
     },
   },
 };
 </script>
+
+<style lang="scss" scoped></style>

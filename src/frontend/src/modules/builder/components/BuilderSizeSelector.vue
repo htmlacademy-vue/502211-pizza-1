@@ -3,22 +3,13 @@
     <div class="sheet">
       <h2 class="title title--small sheet__title">Выберите размер</h2>
 
-      <div class="sheet__content diameter">
-        <!-- Отрисовываем виды размеров -->
-        <label
-          v-for="size in sizes"
-          :key="size.id"
-          :title="size.name"
-          class="diameter__input diameter__input--small"
-        >
-          <RadioButton
-            name="diameter"
-            value="small"
-            :checked="size.id === sizes[0].id"
-          />
-          <span>{{ size.name }}</span>
-        </label>
-      </div>
+      <RadioButton
+        :items="sizes"
+        :itemMap="sizeMap"
+        :itemName="ITEMS_INPUT_DATA.SIZE.ITEM_NAME"
+        :value="currentSize"
+        @change="$emit('change', $event)"
+      />
     </div>
   </div>
 </template>
@@ -26,9 +17,17 @@
 <script>
 // импортируем компоненты
 import RadioButton from "@/common/components/RadioButton";
+import { sizeMap, ITEMS_INPUT_DATA } from "@/common/constants";
 
 export default {
-  name: "BuilderSizeSelector",
+  name: "SizeSelector",
+  // подключаем данные
+  data() {
+    return {
+      sizeMap,
+      ITEMS_INPUT_DATA,
+    };
+  },
   // подключаем компоненты
   components: {
     RadioButton,
@@ -39,6 +38,12 @@ export default {
       type: Array,
       required: true,
     },
+    currentSize: {
+      type: String,
+      required: true,
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped></style>

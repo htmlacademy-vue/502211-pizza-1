@@ -2,24 +2,13 @@
   <div class="content__dough">
     <div class="sheet">
       <h2 class="title title--small sheet__title">Выберите тесто</h2>
-
-      <div class="sheet__content dough">
-        <!-- Отрисовываем виды теста -->
-        <label
-          v-for="pizza in dough"
-          :key="pizza.id"
-          :title="pizza.name"
-          class="dough__input dough__input--light"
-        >
-          <RadioButton
-            name="dough"
-            value="light"
-            :checked="pizza.id === dough[0].id"
-          />
-          <b>{{ pizza.name }}</b>
-          <span>{{ pizza.description }}</span>
-        </label>
-      </div>
+      <RadioButton
+        :items="dough"
+        :itemMap="doughMap"
+        :itemName="ITEMS_INPUT_DATA.DOUGH.ITEM_NAME"
+        :value="currentDough"
+        @change="$emit('change', $event)"
+      />
     </div>
   </div>
 </template>
@@ -27,9 +16,17 @@
 <script>
 // импортируем компоненты
 import RadioButton from "@/common/components/RadioButton";
+import { doughMap, ITEMS_INPUT_DATA } from "@/common/constants";
 
 export default {
-  name: "BuilderDoughSelector",
+  name: "DoughSelector",
+  // подключаем данные
+  data() {
+    return {
+      doughMap,
+      ITEMS_INPUT_DATA,
+    };
+  },
   // подключаем компоненты
   components: {
     RadioButton,
@@ -40,6 +37,12 @@ export default {
       type: Array,
       required: true,
     },
+    currentDough: {
+      type: String,
+      required: true,
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped></style>
