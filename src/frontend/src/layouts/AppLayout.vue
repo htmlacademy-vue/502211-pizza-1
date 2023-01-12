@@ -1,20 +1,25 @@
 <template>
-  <header class="header">
-    <div class="header__logo">
-      <a href="index.html" class="logo">
-        <img
-          src="@/assets/img/logo.svg"
-          alt="V!U!E! Pizza logo"
-          width="90"
-          height="40"
-        />
-      </a>
-    </div>
-    <div class="header__cart">
-      <a href="cart.html">0 ₽</a>
-    </div>
-    <div class="header__user">
-      <a href="#" class="header__login"><span>Войти</span></a>
-    </div>
-  </header>
+  <div>
+    <AppLayoutHeader />
+    <main class="content">
+      <Index />
+    </main>
+  </div>
 </template>
+
+<script>
+// импортируем компоненты
+import AppLayoutHeader from "./AppLayoutHeader.vue";
+import Index from "../views/Index.vue";
+
+export default {
+  name: "AppLayout",
+  // подключаем компоненты
+  components: {
+    AppLayoutHeader,
+    Index,
+  },
+};
+</script>
+
+<style lang="scss" scoped></style>
