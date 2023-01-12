@@ -3,7 +3,8 @@
     <button
       type="button"
       class="counter__button counter__button--minus"
-      :disabled="isDisabledMinus"
+      :disabled="minusButtonDisabled"
+      @click="minusButtonClickHandler"
     >
       <span class="visually-hidden">Меньше</span>
     </button>
@@ -11,12 +12,14 @@
       type="text"
       name="counter"
       class="counter__input"
-      :value="ingredient.amount"
+      :value="itemCount"
+      @change="counterChangeHandler"
     />
     <button
       type="button"
       class="counter__button counter__button--plus"
-      :disabled="isDisabledPlus"
+      :disabled="plusButtonDisabled"
+      @click="plusButtonClickHandler"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -24,26 +27,85 @@
 </template>
 
 <script>
+import { MAX_INGREDIENTS_NUMBER } from "../constants";
+
 export default {
   name: "ItemCounter",
-  data: () => ({
-    amount: 0,
-  }),
   // получение свойств из родительского компонента
   props: {
     ingredient: {
-      type: Object,
+      type: [Object, undefined],
+      required: true,
+    },
+    ingredients: {
+      type: Array,
+      required: true,
+    },
+    ingredientName: {
+      type: String,
       required: true,
     },
   },
   // дополнительные функции
   computed: {
-    isDisabledMinus() {
-      return this.ingredient.amount < 1;
+    minusButtonDisabled() {
+      return this.ingredient?.amount === undefined;
     },
-    isDisabledPlus() {
-      return this.ingredient.amount >= 3;
+    plusButtonDisabled() {
+      return this.ingredient?.amount === MAX_INGREDIENTS_NUMBER;
+    },
+    itemCount() {
+      return this.ingredient?.amount || "0";
+    },
+  },
+  // добавили методы
+  methods: {
+    minusButtonClickHandler() {
+      if (this.ingredient.amount !== 0) {
+        const updatedIngredient = { ...this.ingredient };
+        updatedIngredient.amount--;
+        this.$emit("minusButtonClick", updatedIngredient);
+      }
+    },
+    plusButtonClickHandler() {
+      if (this.ingredient === undefined) {
+        const ingredientTemplate = {
+          ...this.ingredients.find((it) => it.name === this.ingredientName),
+        };
+        ingredientTemplate.amount = 1;
+        this.$emit("plusButtonClick", ingredientTemplate);
+      } else {
+        const updatedIngredient = { ...this.ingredient };
+        updatedIngredient.amount++;
+        this.$emit("plusButtonClick", updatedIngredient);
+      }
+    },
+    counterChangeHandler(event) {
+      let value = parseInt(event.target.value);
+
+      if (isNaN(value)) {
+        value = this.itemCount;
+      } else {
+        if (value < 0) {
+          value = 0;
+        } else if (
+          event.target.value >= 0 &&
+          event.target.value <= MAX_INGREDIENTS_NUMBER
+        ) {
+          value = parseInt(value);
+        } else if (value > MAX_INGREDIENTS_NUMBER) {
+          value = MAX_INGREDIENTS_NUMBER;
+        }
+      }
+
+      const ingredientTemplate = {
+        ...this.ingredients.find((it) => it.name === this.ingredientName),
+      };
+      ingredientTemplate.amount = value;
+      this.$emit("blur", ingredientTemplate);
     },
   },
 };
 </script>
+
+<style lang="scss" scoped></style>

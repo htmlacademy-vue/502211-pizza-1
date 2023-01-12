@@ -1,9 +1,5 @@
 <template>
-  <div
-    @drop.stop="onDrop"
-    @dragover.prevent
-    @dragenter.prevent
-  >
+  <div @drop.stop="dropHandler" @dragover.prevent>
     <slot />
   </div>
 </template>
@@ -13,12 +9,10 @@ export default {
   name: "AppDrop",
   // добавили методы
   methods: {
-    onDrop({ dataTransfer }) {
-      const payload = dataTransfer.getData("DATA_TRANSFER_PAYLOAD");
+    dropHandler({ dataTransfer }) {
+      const payload = dataTransfer.getData("ingredient");
       if (payload) {
-        const transferData = JSON.parse(
-          dataTransfer.getData("DATA_TRANSFER_PAYLOAD")
-        );
+        const transferData = JSON.parse(payload);
         this.$emit("drop", transferData);
       }
     },

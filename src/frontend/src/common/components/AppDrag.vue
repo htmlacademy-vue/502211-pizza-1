@@ -1,10 +1,5 @@
 <template>
-  <div
-    :draggable="!disabled"
-    @dragstart.self="onDrag"
-    @dragover.prevent
-    @dragenter.prevent
-  >
+  <div :draggable="true" @dragstart.self="dragHandler">
     <slot />
   </div>
 </template>
@@ -18,20 +13,11 @@ export default {
       type: Object,
       required: true,
     },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
   },
   // добавили методы
   methods: {
-    onDrag({ dataTransfer }) {
-      dataTransfer.effectAllowed = "MOVE";
-      dataTransfer.dropEffect = "MOVE";
-      dataTransfer.setData(
-        "DATA_TRANSFER_PAYLOAD",
-        JSON.stringify(this.transferData)
-      );
+    dragHandler({ dataTransfer }) {
+      dataTransfer.setData("ingredient", JSON.stringify(this.transferData));
     },
   },
 };
