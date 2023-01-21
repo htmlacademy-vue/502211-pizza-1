@@ -8,7 +8,21 @@
             :key="item.id"
             class="pizza__filling"
             :class="getPizzaFillingClass(item)"
-          />
+          >
+            <div
+              v-if="item.amount === 2"
+              :key="item.id"
+              class="pizza__filling"
+              :class="getPizzaFillingClassSecond(item)"
+            >
+              <div
+                v-if="item.amount === 3"
+                :key="item.id"
+                class="pizza__filling"
+                :class="getPizzaFillingClassThird(item)"
+              />
+            </div>
+          </div>
         </div>
       </AppDrop>
     </div>
@@ -63,15 +77,17 @@ export default {
   // добавили методы
   methods: {
     getPizzaFillingClass(item) {
-      let additionalIngredientsClass = "";
-      if (item.amount === 2) {
-        additionalIngredientsClass = "pizza__filling--second";
-      } else if (item.amount === 3) {
-        additionalIngredientsClass = "pizza__filling--third";
-      }
+      return `pizza__filling--${ingredientsMap[item.name]}`;
+    },
+    getPizzaFillingClassSecond(item) {
       return `pizza__filling--${
         ingredientsMap[item.name]
-      } ${additionalIngredientsClass}`;
+      } pizza__filling--second`;
+    },
+    getPizzaFillingClassThird(item) {
+      return `pizza__filling--${
+        ingredientsMap[item.name]
+      } pizza__filling--third`;
     },
     itemDropHandler(item) {
       const ingredients = { ...this.selectedIngredients };

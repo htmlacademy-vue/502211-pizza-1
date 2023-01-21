@@ -6,6 +6,7 @@
     <label v-for="item in items" :key="item.id" :class="labelClass(item.name)">
       <input
         type="radio"
+        class="visually-hidden"
         :name="itemName"
         :value="`${itemMap[item.name]}`"
         :class="itemClass"

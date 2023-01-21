@@ -102,7 +102,7 @@ export default {
         ...this.ingredients.find((it) => it.name === this.ingredientName),
       };
       ingredientTemplate.amount = value;
-      this.$emit("blur", ingredientTemplate);
+      this.$emit("change", ingredientTemplate);
     },
   },
 };
