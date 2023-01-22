@@ -33,7 +33,7 @@
           :selectedIngredients="selectedIngredients"
           :currentDough="currentDough"
           :currentSauce="currentSauce"
-          @change="updateIngredients"
+          @update="updateIngredients"
         />
 
         <PriceCounter

@@ -102,6 +102,8 @@ export default {
       };
       ingredientTemplate.amount = value;
       this.$emit("update", ingredientTemplate);
+
+      console.log("counterChangeHandler работает");
     },
   },
 };
