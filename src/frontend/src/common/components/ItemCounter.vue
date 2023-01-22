@@ -101,7 +101,7 @@ export default {
         ...this.ingredients.find((it) => it.name === this.ingredientName),
       };
       ingredientTemplate.amount = value;
-      this.$emit("change", ingredientTemplate);
+      this.$emit("update", ingredientTemplate);
     },
   },
 };

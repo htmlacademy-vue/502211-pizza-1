@@ -16,7 +16,7 @@
         <IngredientsFilling
           :ingredients="ingredients"
           :selectedIngredients="selectedIngredients"
-          @change="$emit('change', $event)"
+          @update="$emit('update', $event)"
           @plusButtonClick="$emit('plusButtonClick', $event)"
           @minusButtonClick="$emit('minusButtonClick', $event)"
         />

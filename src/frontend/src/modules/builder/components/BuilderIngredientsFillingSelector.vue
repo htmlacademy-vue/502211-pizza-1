@@ -19,7 +19,7 @@
           :ingredient="selectedIngredients[ingredient.name]"
           :ingredientName="ingredient.name"
           :ingredients="ingredients"
-          @change="$emit('change', $event)"
+          @update="$emit('update', $event)"
           @minusButtonClick="$emit('minusButtonClick', $event)"
           @plusButtonClick="$emit('plusButtonClick', $event)"
         />

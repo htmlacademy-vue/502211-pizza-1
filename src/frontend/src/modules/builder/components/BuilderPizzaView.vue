@@ -3,26 +3,26 @@
     <div class="pizza" :class="getCustomPizzaClass">
       <AppDrop @drop="itemDropHandler">
         <div class="pizza__wrapper">
-          <div
-            v-for="item in selectedIngredients"
-            :key="item.id"
-            class="pizza__filling"
-            :class="getPizzaFillingClass(item)"
-          >
+          <template v-for="item in selectedIngredients">
             <div
-              v-if="item.amount === 2"
+              v-if="item.amount > 0"
+              :key="item.id"
+              class="pizza__filling"
+              :class="getPizzaFillingClass(item)"
+            />
+            <div
+              v-if="item.amount > 1"
               :key="item.id"
               class="pizza__filling"
               :class="getPizzaFillingClassSecond(item)"
-            >
-              <div
-                v-if="item.amount === 3"
-                :key="item.id"
-                class="pizza__filling"
-                :class="getPizzaFillingClassThird(item)"
-              />
-            </div>
-          </div>
+            />
+            <div
+              v-if="item.amount > 2"
+              :key="item.id"
+              class="pizza__filling"
+              :class="getPizzaFillingClassThird(item)"
+            />
+          </template>
         </div>
       </AppDrop>
     </div>
