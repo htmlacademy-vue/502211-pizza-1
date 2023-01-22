@@ -9,7 +9,7 @@
         class="visually-hidden"
         :name="itemName"
         :value="`${itemMap[item.name]}`"
-        :class="itemClass"
+        :class="inputClass"
         :checked="item.name === value"
         @change="radioInputChangeHandler"
       />

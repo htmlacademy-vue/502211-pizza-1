@@ -35,7 +35,6 @@ export default {
   props: {
     ingredient: {
       type: [Object, undefined],
-      required: true,
     },
     ingredients: {
       type: Array,
