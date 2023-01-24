@@ -1,0 +1,24 @@
+<template>
+  <div :draggable="true" @dragstart.self="dragHandler">
+    <slot />
+  </div>
+</template>
+
+<script>
+export default {
+  name: "AppDrag",
+  // получение свойств из родительского компонента
+  props: {
+    transferData: {
+      type: Object,
+      required: true,
+    },
+  },
+  // добавили методы
+  methods: {
+    dragHandler({ dataTransfer }) {
+      dataTransfer.setData("ingredient", JSON.stringify(this.transferData));
+    },
+  },
+};
+</script>
