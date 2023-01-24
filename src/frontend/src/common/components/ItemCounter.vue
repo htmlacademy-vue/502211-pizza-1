@@ -97,11 +97,12 @@ export default {
         }
       }
 
-      const ingredientTemplate = {
-        ...this.ingredients.find((it) => it.name === this.ingredientName),
-      };
-      ingredientTemplate.amount = value;
-      this.$emit("update", ingredientTemplate);
+      const updatedIngredient = { ...this.ingredient };
+
+      updatedIngredient.amount = value;
+      console.log(`number ${updatedIngredient.amount}`);
+
+      this.$emit("update", updatedIngredient);
 
       console.log("counterChangeHandler работает");
     },

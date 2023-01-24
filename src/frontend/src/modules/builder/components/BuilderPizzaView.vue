@@ -4,12 +4,24 @@
       <AppDrop @drop="itemDropHandler">
         <div class="pizza__wrapper">
           <template v-for="item in selectedIngredients">
-            <div v-if="item.amount > 0" :key="item.id" key: filling-one
-            class="pizza__filling" :class="getPizzaFillingClass(item)" /> <div
-            v-if="item.amount > 1" :key="item.id" key: filling-two
-            class="pizza__filling" :class="getPizzaFillingClassSecond(item)" />
-            <div v-if="item.amount > 2" :key="item.id" key: filling-tree
-            class="pizza__filling" :class="getPizzaFillingClassThird(item)" />
+            <div
+              v-if="item.amount > 0"
+              :key="`filling-one_${item.id}`"
+              class="pizza__filling"
+              :class="getPizzaFillingClass(item)"
+            />
+            <div
+              v-if="item.amount > 1"
+              :key="`filling-two_${item.id}`"
+              class="pizza__filling"
+              :class="getPizzaFillingClassSecond(item)"
+            />
+            <div
+              v-if="item.amount > 2"
+              :key="`filling-three_${item.id}`"
+              class="pizza__filling"
+              :class="getPizzaFillingClassThird(item)"
+            />
           </template>
         </div>
       </AppDrop>

@@ -23,7 +23,7 @@
         @change="updateSauceValue"
         @minusButtonClick="decreaseIngredientCount"
         @plusButtonClick="increaseIngredientCount"
-        @blur="setCount"
+        @update="setCount"
       />
 
       <div class="content__pizza">
