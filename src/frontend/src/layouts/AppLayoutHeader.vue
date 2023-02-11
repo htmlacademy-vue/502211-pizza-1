@@ -1,22 +1,22 @@
 <template>
   <header class="header">
     <div class="header__logo">
-      <a href="index.html" class="logo">
+      <RouterLink to="/" class="logo">
         <img
           src="@/assets/img/logo.svg"
           alt="V!U!E! Pizza logo"
           width="90"
           height="40"
         />
-      </a>
+      </RouterLink>
     </div>
     <div class="header__cart">
-      <a href="cart.html">0 ₽</a>
+      <RouterLink to="/cart">0 ₽</RouterLink>
     </div>
     <div class="header__user">
-      <a href="#" class="header__login">
+      <RouterLink to="/sign-in" class="header__login">
         <span>Войти</span>
-      </a>
+      </RouterLink>
     </div>
   </header>
 </template>
