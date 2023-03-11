@@ -25,8 +25,8 @@
 
 <script>
 // импортируем компоненты
-import SelectorItem from "./SelectorItem.vue";
-import { ITEMS_INPUT_DATA } from "../constants";
+import SelectorItem from "@/common/components/SelectorItem";
+import { ITEMS_INPUT_DATA } from "@/common/constants";
 
 export default {
   name: "RadioButton",
@@ -54,6 +54,10 @@ export default {
     },
     value: {
       type: String,
+      required: true,
+    },
+    inputChangeHandler: {
+      type: Function,
       required: true,
     },
   },
@@ -84,7 +88,7 @@ export default {
       const updatedValue = Object.entries(this.itemMap).find(
         (b) => b === event.target.value
       )[0];
-      this.$emit("change", updatedValue);
+      this.inputChangeHandler(updatedValue);
     },
   },
 };

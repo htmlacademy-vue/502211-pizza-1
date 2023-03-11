@@ -31,13 +31,13 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
-
 // импортируем компоненты
 import AppDrag from "@/common/components/AppDrag.vue";
 import SelectorItem from "@/common/components/SelectorItem.vue";
 import ItemCounter from "@/common/components/ItemCounter.vue";
 import { ingredientsMap, ITEMS_INPUT_DATA, MAX_INGREDIENTS_NUMBER } from "@/common/constants";
+
+import { mapState, mapMutations } from "vuex";
 import { DECREASE_INGREDIENT_COUNT, INCREASE_INGREDIENT_COUNT, SET_INGREDIENT_COUNT } from "@/store/mutation-types";
 import { itemsCounter } from "@/common/mixins";
 
