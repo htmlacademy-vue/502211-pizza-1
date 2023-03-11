@@ -1,6 +1,6 @@
 <template>
   <div class="content__result">
-    <p>Итого: {{ totalPrice }} ₽</p>
+    <p>Итого: {{ totalPizzaPrice }} ₽</p>
     <button
       type="button"
       class="button"
@@ -13,37 +13,78 @@
 </template>
 
 <script>
+import { MAX_PIZZA_ID_NUMBER, MIN_PIZZA_ID_NUMBER } from "@/common/constants";
+import { getRandomNumber } from "@/common/utils";
+
+import { mapState, mapGetters, mapMutations } from "vuex";
+import { ADD_TO_CART, UPDATE_EXISTING_PIZZA, CLEAR_FABRIC, SET_EDITING_PIZZA } from "@/store/mutation-types";
+
 export default {
   name: "PriceCounter",
-  // получение свойств из родительского компонента
-  props: {
-    totalPrice: {
-      type: Number,
-      required: true,
-    },
-    selectedIngredients: {
-      type: Object,
-      required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-  },
   // дополнительные функции
   computed: {
+    ...mapState("Builder", [
+      "currentDough",
+      "currentSize",
+      "currentSauce",
+      "selectedIngredients",
+      "pizzaName",
+      "editingPizza",
+    ]),
+    ...mapState("Cart", ["cart"]),
+    ...mapGetters("Builder", ["totalPizzaPrice"]),
+
     disabled() {
       return (
-        this.totalPrice === 0 ||
+        this.totalPizzaPrice === 0 ||
         Object.keys(this.selectedIngredients).length === 0 ||
-        this.name.length === 0
+        this.pizzaName.length === 0
       );
     },
   },
   // добавили методы
   methods: {
+    ...mapMutations("Builder", {
+      setEditingPizza: SET_EDITING_PIZZA,
+      clearFabric: CLEAR_FABRIC,
+    }),
+    ...mapMutations("Cart", {
+      addToCart: ADD_TO_CART,
+      updateExistingPizza: UPDATE_EXISTING_PIZZA,
+    }),
+
     submitButtonClickHandler() {
-      this.$emit("submit");
+      const newCartItem = {
+        dough: this.currentDough,
+        size: this.currentSize,
+        sauce: this.currentSauce,
+        ingredients: this.selectedIngredients,
+        pizzaName: this.pizzaName,
+        price: this.totalPizzaPrice,
+        amount: 1,
+        id: this.editingPizza
+          ? this.editingPizza.id
+          : getRandomNumber(
+            MAX_PIZZA_ID_NUMBER,
+            MIN_PIZZA_ID_NUMBER
+          ),
+      };
+
+      if (this.editingPizza) {
+        const oldItemData = this.cart.find(
+          (it) => it.id === this.editingPizza.id
+        );
+
+        this.updateExistingPizza({
+          ...newCartItem,
+          amount: oldItemData.amount,
+        });
+        this.setEditingPizza(null);
+      } else {
+        this.addToCart(newCartItem);
+      }
+
+      this.clearFabric();
     },
   },
 };

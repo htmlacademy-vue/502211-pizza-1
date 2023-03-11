@@ -8,7 +8,7 @@
         :itemMap="sizeMap"
         :itemName="ITEMS_INPUT_DATA.SIZE.ITEM_NAME"
         :value="currentSize"
-        @change="$emit('change', $event)"
+        :inputChangeHandler="updateSizeValue"
       />
     </div>
   </div>
@@ -18,6 +18,9 @@
 // импортируем компоненты
 import RadioButton from "@/common/components/RadioButton";
 import { sizeMap, ITEMS_INPUT_DATA } from "@/common/constants";
+
+import { mapState, mapMutations } from "vuex";
+import { UPDATE_SIZE_VALUE } from "@/store/mutation-types";
 
 export default {
   name: "SizeSelector",
@@ -32,16 +35,20 @@ export default {
   components: {
     RadioButton,
   },
-  // получение свойств из родительского компонента
-  props: {
-    sizes: {
-      type: Array,
-      required: true,
+  // дополнительные функции
+  computed: {
+    ...mapState("Builder", ["pizzas"]),
+    ...mapState("Builder", ["currentSize"]),
+
+    sizes() {
+      return this.pizzas.sizes;
     },
-    currentSize: {
-      type: String,
-      required: true,
-    },
+  },
+  // добавили методы
+  methods: {
+    ...mapMutations("Builder", {
+      updateSizeValue: UPDATE_SIZE_VALUE,
+    }),
   },
 };
 </script>

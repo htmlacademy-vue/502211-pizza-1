@@ -12,19 +12,22 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
+import { UPDATE_NAME } from "@/store/mutation-types";
+
 export default {
   name: "PizzaName",
-  // получение свойств из родительского компонента
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
+  // дополнительные функции
+  computed: {
+    ...mapState("Builder", ["pizzaName"]),
   },
   // добавили методы
   methods: {
+    ...mapMutations("Builder", {
+      updateName: UPDATE_NAME,
+    }),
     nameInputChangeHandler(event) {
-      this.$emit("changeName", event.target.value);
+      this.updateName(event.target.value);
     },
   },
 };
