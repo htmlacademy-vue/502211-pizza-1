@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
-import { UPDATE_DOUGH_VALUE } from "@/store/mutation-types";
-
 // импортируем компоненты
 import RadioButton from "@/common/components/RadioButton";
 import { doughMap, ITEMS_INPUT_DATA } from "@/common/constants";
+
+import { mapState, mapMutations } from "vuex";
+import { UPDATE_DOUGH_VALUE } from "@/store/mutation-types";
 
 export default {
   name: "DoughSelector",
