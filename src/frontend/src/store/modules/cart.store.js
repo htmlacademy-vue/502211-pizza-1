@@ -1,4 +1,7 @@
-import { DELIVERY_DEFAULT_TYPE, MAX_INGREDIENTS_NUMBER } from "@/common/constants";
+import {
+  DELIVERY_DEFAULT_TYPE,
+  MAX_INGREDIENTS_NUMBER,
+} from "@/common/constants";
 import { getCountSum } from "@/common/utils";
 
 // подключение типов мутаций

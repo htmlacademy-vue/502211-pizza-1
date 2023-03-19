@@ -87,7 +87,9 @@ export default {
   methods: {
     counterChangeHandler(event) {
       let value = parseInt(event.target.value);
-      const isInputValid = String(parseInt(event.target.value)).length === event.target.value.length;
+      const isInputValid =
+        String(parseInt(event.target.value)).length ===
+        event.target.value.length;
 
       if (!isInputValid) {
         return;

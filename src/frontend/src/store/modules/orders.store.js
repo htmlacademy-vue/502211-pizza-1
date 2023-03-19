@@ -18,7 +18,6 @@ import {
 
 // состояние по умолчанию
 export const resetState = () => ({
-  ...state,
   selectedMisc: {},
   showModal: false,
   editingAddress: -1,
