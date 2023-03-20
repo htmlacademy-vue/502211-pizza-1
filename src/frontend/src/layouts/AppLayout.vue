@@ -9,7 +9,7 @@
 
 <script>
 // импортируем компоненты
-import AppLayoutHeader from "./AppLayoutHeader";
+import AppLayoutHeader from "@/layouts/AppLayoutHeader.vue";
 
 export default {
   name: "AppLayout",

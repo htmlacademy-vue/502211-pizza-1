@@ -51,7 +51,7 @@
 
 <script>
 // импортируем компоненты
-import FormInput from "@/common/components/FormInput";
+import FormInput from "@/common/components/FormInput.vue";
 import { OPTIONS, CART_ADDRESS_FORM_INPUT_DATA } from "@/common/constants";
 
 import { mapState, mapMutations } from "vuex";

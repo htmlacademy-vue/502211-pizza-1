@@ -31,12 +31,8 @@
 
 <script>
 // импортируем компоненты
-import AppDrop from "@/common/components/AppDrop";
-import {
-  ingredientsMap,
-  sauceMap,
-  doughClassMap,
-} from "@/common/constants";
+import AppDrop from "@/common/components/AppDrop.vue";
+import { ingredientsMap, sauceMap, doughClassMap } from "@/common/constants";
 
 import { mapState } from "vuex";
 

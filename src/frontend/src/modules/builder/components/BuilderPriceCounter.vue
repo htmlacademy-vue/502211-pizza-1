@@ -17,7 +17,12 @@ import { MAX_PIZZA_ID_NUMBER, MIN_PIZZA_ID_NUMBER } from "@/common/constants";
 import { getRandomNumber } from "@/common/utils";
 
 import { mapState, mapGetters, mapMutations } from "vuex";
-import { ADD_TO_CART, UPDATE_EXISTING_PIZZA, CLEAR_FABRIC, SET_EDITING_PIZZA } from "@/store/mutation-types";
+import {
+  ADD_TO_CART,
+  UPDATE_EXISTING_PIZZA,
+  CLEAR_FABRIC,
+  SET_EDITING_PIZZA,
+} from "@/store/mutation-types";
 
 export default {
   name: "PriceCounter",
@@ -64,10 +69,7 @@ export default {
         amount: 1,
         id: this.editingPizza
           ? this.editingPizza.id
-          : getRandomNumber(
-            MAX_PIZZA_ID_NUMBER,
-            MIN_PIZZA_ID_NUMBER
-          ),
+          : getRandomNumber(MAX_PIZZA_ID_NUMBER, MIN_PIZZA_ID_NUMBER),
       };
 
       if (this.editingPizza) {

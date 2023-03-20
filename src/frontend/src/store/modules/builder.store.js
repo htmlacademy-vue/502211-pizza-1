@@ -47,7 +47,9 @@ const getters = {
       (it) => it.name === state.currentSauce
     ).price;
 
-    const ingredientsPrice = getCountSum(Object.values(state.selectedIngredients));
+    const ingredientsPrice = getCountSum(
+      Object.values(state.selectedIngredients)
+    );
 
     return multiplier * (doughPrice + saucePrice + ingredientsPrice);
   },
@@ -59,14 +61,14 @@ const actions = {
     dispatch("fetchPizzas");
     dispatch("fetchMisc");
   },
-  // получение списка пицц 
+  // получение списка пицц
   fetchPizzas({ commit }) {
     const pizzas = jsonPizzas;
 
     commit(FETCH_PIZZAS, {
       module: null,
-      entity: 'pizzas',
-      value: pizzas
+      entity: "pizzas",
+      value: pizzas,
     });
   },
   // получение списка доп. продуктов
@@ -75,8 +77,8 @@ const actions = {
 
     commit(FETCH_MISC, {
       module: null,
-      entity: 'misc',
-      value: misc
+      entity: "misc",
+      value: misc,
     });
   },
 };
@@ -123,7 +125,7 @@ const mutations = {
       ingredient.amount = count;
       selectedIngredients[ingredientName] = ingredient;
     } else {
-      delete selectedIngredients[ingredientName];      
+      delete selectedIngredients[ingredientName];
     }
 
     state.selectedIngredients = { ...selectedIngredients };
@@ -186,7 +188,7 @@ const mutations = {
 };
 
 export default {
-  namespaced: true, 
+  namespaced: true,
   state: resetState(),
   getters,
   actions,

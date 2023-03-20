@@ -26,7 +26,7 @@
 
 <script>
 // импортируем компоненты
-import SubmitButton from "@/common/components/SubmitButton";
+import SubmitButton from "@/common/components/SubmitButton.vue";
 import { getRandomNumber } from "@/common/utils";
 
 import { mapState, mapGetters, mapMutations } from "vuex";

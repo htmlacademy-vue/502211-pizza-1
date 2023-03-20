@@ -14,7 +14,7 @@
 
 <script>
 // импортируем компоненты
-import OrderSheet from "@/modules/orders/components/OrderSheet";
+import OrderSheet from "@/modules/orders/components/OrderSheet.vue";
 
 import { mapState } from "vuex";
 

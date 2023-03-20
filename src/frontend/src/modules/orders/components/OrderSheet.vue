@@ -64,8 +64,8 @@
 
 <script>
 // импортируем компоненты
-import OrderItem from "@/modules/orders/components/OrderItem";
-import OrderItemAdditional from "@/modules/orders/components/OrderItemAdditional";
+import OrderItem from "@/modules/orders/components/OrderItem.vue";
+import OrderItemAdditional from "@/modules/orders/components/OrderItemAdditional.vue";
 
 import { mapMutations } from "vuex";
 import {

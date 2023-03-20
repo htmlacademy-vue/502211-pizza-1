@@ -22,8 +22,8 @@
 
 <script>
 // импортируем компоненты
-import FormInput from "@/common/components/FormInput";
-import SubmitButton from "@/common/components/SubmitButton";
+import FormInput from "@/common/components/FormInput.vue";
+import SubmitButton from "@/common/components/SubmitButton.vue";
 import { AUTH_FORM_INPUT_DATA } from "@/common/constants";
 
 import { mapState, mapMutations } from "vuex";

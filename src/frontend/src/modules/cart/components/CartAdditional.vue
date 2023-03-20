@@ -39,7 +39,7 @@
 
 <script>
 // импортируем компоненты
-import ItemCounter from "@/common/components/ItemCounter";
+import ItemCounter from "@/common/components/ItemCounter.vue";
 
 import { mapState, mapMutations } from "vuex";
 import {

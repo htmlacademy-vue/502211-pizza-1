@@ -21,8 +21,8 @@
 
 <script>
 // импортируем компоненты
-import IngredientsFilling from "@/modules/builder/components/BuilderIngredientsFillingSelector";
-import RadioButton from "@/common/components/RadioButton";
+import IngredientsFilling from "@/modules/builder/components/BuilderIngredientsFillingSelector.vue";
+import RadioButton from "@/common/components/RadioButton.vue";
 import { sauceMap, ITEMS_INPUT_DATA } from "@/common/constants";
 
 import { mapState, mapMutations } from "vuex";

@@ -49,7 +49,7 @@
 
 <script>
 // импортируем компоненты
-import AppLayoutLogo from "./AppLayoutLogo";
+import AppLayoutLogo from "@/layouts/AppLayoutLogo.vue";
 import { SIDEBAR_MENU } from "@/common/constants";
 
 import { mapState, mapGetters, mapMutations } from "vuex";

@@ -7,11 +7,7 @@
         </div>
 
         <ul v-if="cart.length" class="cart-list sheet">
-          <CartItem
-            v-for="(item, id) in cart"
-            :key="id"
-            :itemData="item"
-          />
+          <CartItem v-for="(item, id) in cart" :key="id" :itemData="item" />
         </ul>
 
         <div v-else class="sheet cart__empty">
@@ -32,11 +28,11 @@
 
 <script>
 // импортируем компоненты
-import CartItem from "@/modules/cart/components/CartItem";
-import CartAdditional from "@/modules/cart/components/CartAdditional";
-import CartForm from "@/modules/cart/components/CartForm";
-import CartPopup from "@/modules/cart/components/CartPopup";
-import CartFooter from "@/modules/cart/components/CartFooter";
+import CartItem from "@/modules/cart/components/CartItem.vue";
+import CartAdditional from "@/modules/cart/components/CartAdditional.vue";
+import CartForm from "@/modules/cart/components/CartForm.vue";
+import CartPopup from "@/modules/cart/components/CartPopup.vue";
+import CartFooter from "@/modules/cart/components/CartFooter.vue";
 
 import { mapState, mapMutations } from "vuex";
 import { SET_DELIVERY_TYPE } from "@/store/mutation-types";

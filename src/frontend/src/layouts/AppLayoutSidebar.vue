@@ -11,7 +11,7 @@
 
 <script>
 // импортируем компоненты
-import AppLayoutHeader from "@/common/components/AppLayoutHeader";
+import AppLayoutHeader from "@/layouts/AppLayoutHeader.vue";
 import Sidebar from "@/common/components/Sidebar";
 
 export default {

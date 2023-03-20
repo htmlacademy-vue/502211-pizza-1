@@ -16,7 +16,7 @@
 
 <script>
 // импортируем компоненты
-import RadioButton from "@/common/components/RadioButton";
+import RadioButton from "@/common/components/RadioButton.vue";
 import { sizeMap, ITEMS_INPUT_DATA } from "@/common/constants";
 
 import { mapState, mapMutations } from "vuex";

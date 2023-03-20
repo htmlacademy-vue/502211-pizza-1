@@ -15,8 +15,8 @@
 
 <script>
 // импортируем компоненты
-import AppLogo from "@/common/components/AppLogo";
-import SidebarMenuItem from "@/common/components/SidebarMenuItem";
+import AppLogo from "@/layouts/AppLayoutLogo.vue";
+import SidebarMenuItem from "@/common/components/SidebarMenuItem.vue";
 import { SIDEBAR_MENU } from "@/common/constants";
 
 export default {

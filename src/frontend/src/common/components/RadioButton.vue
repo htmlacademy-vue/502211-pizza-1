@@ -25,7 +25,7 @@
 
 <script>
 // импортируем компоненты
-import SelectorItem from "@/common/components/SelectorItem";
+import SelectorItem from "@/common/components/SelectorItem.vue";
 import { ITEMS_INPUT_DATA } from "@/common/constants";
 
 export default {

@@ -13,7 +13,7 @@
 
 <script>
 // импортируем компоненты
-import AuthForm from "@/modules/auth/components/AuthForm";
+import AuthForm from "@/modules/auth/components/AuthForm.vue";
 
 export default {
   name: "Login",

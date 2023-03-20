@@ -8,7 +8,7 @@
 
 <script>
 // импортируем компоненты
-import AppLayout from "@/layouts/AppLayout";
+import AppLayout from "@/layouts/AppLayout.vue";
 
 export default {
   name: "App",
