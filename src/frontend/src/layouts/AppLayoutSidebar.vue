@@ -1,7 +1,9 @@
 <template>
   <div>
     <AppLayoutHeader />
-    <main class="content">
+    <main class="layout">
+      <Sidebar />
+
       <slot />
     </main>
   </div>
@@ -9,13 +11,15 @@
 
 <script>
 // импортируем компоненты
-import AppLayoutHeader from "./AppLayoutHeader";
+import AppLayoutHeader from "@/common/components/AppLayoutHeader";
+import Sidebar from "@/common/components/Sidebar";
 
 export default {
-  name: "AppLayout",
+  name: "AppLayoutSidebar",
   // подключаем компоненты
   components: {
     AppLayoutHeader,
+    Sidebar,
   },
 };
 </script>

@@ -9,10 +9,10 @@
 
 <script>
 // импортируем компоненты
-import AppLayoutHeader from "./AppLayoutHeader";
+import AppLayoutHeader from "@/common/components/AppLayoutHeader";
 
 export default {
-  name: "AppLayout",
+  name: "AppLayoutMain",
   // подключаем компоненты
   components: {
     AppLayoutHeader,
