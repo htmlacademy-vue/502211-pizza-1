@@ -86,7 +86,7 @@ export default {
     },
     radioInputChangeHandler(event) {
       const updatedValue = Object.entries(this.itemMap).find(
-        (b) => b === event.target.value
+        ([, b]) => b === event.target.value
       )[0];
       this.inputChangeHandler(updatedValue);
     },

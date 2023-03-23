@@ -1,7 +1,7 @@
 <template>
   <div class="layout__sidebar sidebar">
     <RouterLink to="/" class="logo layout__logo">
-      <AppLogo />
+      <AppLayoutLogo />
     </RouterLink>
 
     <SidebarMenuItem
@@ -15,7 +15,7 @@
 
 <script>
 // импортируем компоненты
-import AppLogo from "@/layouts/AppLayoutLogo.vue";
+import AppLayoutLogo from "@/layouts/AppLayoutLogo.vue";
 import SidebarMenuItem from "@/common/components/SidebarMenuItem.vue";
 import { SIDEBAR_MENU } from "@/common/constants";
 
@@ -23,7 +23,7 @@ export default {
   name: "AppLayoutMain",
   // подключаем компоненты
   components: {
-    AppLogo,
+    AppLayoutLogo,
     SidebarMenuItem,
   },
   // подключаем данные

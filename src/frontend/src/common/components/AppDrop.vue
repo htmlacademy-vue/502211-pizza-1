@@ -5,15 +5,22 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+import { ITEM_DROP } from "@/store/mutation-types";
+
 export default {
   name: "AppDrop",
   // добавили методы
   methods: {
+    ...mapMutations("Builder", {
+      itemDrop: ITEM_DROP,
+    }),
+
     dropHandler({ dataTransfer }) {
       const payload = dataTransfer.getData("ingredient");
       if (payload) {
         const transferData = JSON.parse(payload);
-        this.$emit("drop", transferData);
+        this.itemDrop(transferData);
       }
     },
   },

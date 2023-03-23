@@ -5,7 +5,7 @@
       type="text"
       name="pizza_name"
       placeholder="Введите название пиццы"
-      :value="name"
+      :value="pizzaName"
       @input="nameInputChangeHandler"
     />
   </label>

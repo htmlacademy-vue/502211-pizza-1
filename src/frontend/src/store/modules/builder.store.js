@@ -65,21 +65,13 @@ const actions = {
   fetchPizzas({ commit }) {
     const pizzas = jsonPizzas;
 
-    commit(FETCH_PIZZAS, {
-      module: null,
-      entity: "pizzas",
-      value: pizzas,
-    });
+    commit(FETCH_PIZZAS, pizzas);
   },
   // получение списка доп. продуктов
   fetchMisc({ commit }) {
     const misc = jsonMisc;
 
-    commit(FETCH_MISC, {
-      module: null,
-      entity: "misc",
-      value: misc,
-    });
+    commit(FETCH_MISC, misc);
   },
 };
 
