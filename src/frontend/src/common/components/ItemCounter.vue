@@ -63,12 +63,6 @@ export default {
       required: true,
     },
   },
-  // подключаем данные
-  data() {
-    return {
-      refreshKey: 0,
-    };
-  },
   // дополнительные функции
   computed: {
     additionalPlusButtonClass() {
@@ -79,7 +73,6 @@ export default {
       }
     },
     itemCount() {
-      this.refreshKey;
       return this.count;
     },
   },
@@ -110,8 +103,6 @@ export default {
         count: value,
         item: this.item,
       });
-
-      this.refreshKey++;
     },
   },
 };

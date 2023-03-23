@@ -6,7 +6,7 @@
       </RouterLink>
     </div>
     <div class="header__cart">
-      <RouterLink to="/cart">{{ orderPrice }} ₽</RouterLink>
+      <RouterLink to="/cart">{{ totalOrderPrice }} ₽</RouterLink>
     </div>
     <div v-if="!isAuthorized" class="header__user">
       <RouterLink to="/sign-in" class="header__login">

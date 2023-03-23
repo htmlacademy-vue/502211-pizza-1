@@ -10,6 +10,16 @@ export const resetState = () => ({
   isAuthorized: false,
 });
 
+const getters = {
+  isAuthorizes(state) {
+    if (state.user !== null) {
+      return true;
+    }
+
+    return false;
+  },
+};
+
 const mutations = {
   [CHANGE_AUTH_STATUS](state, status) {
     state.isAuthorized = status;
@@ -19,5 +29,6 @@ const mutations = {
 export default {
   namespaced: true,
   state: resetState(),
+  getters,
   mutations,
 };

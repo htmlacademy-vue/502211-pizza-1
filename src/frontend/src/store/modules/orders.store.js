@@ -176,7 +176,7 @@ export const setupState = () => ({
           amount: 1,
         },
       ],
-      orderPrice: 1564,
+      totalOrderPrice: 1564,
     },
     {
       id: 2,
@@ -307,7 +307,7 @@ export const setupState = () => ({
           amount: 1,
         },
       ],
-      orderPrice: 1564,
+      totalOrderPrice: 1564,
     },
   ],
 });

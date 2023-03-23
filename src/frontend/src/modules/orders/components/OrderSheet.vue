@@ -6,7 +6,7 @@
       </div>
 
       <div class="order__sum">
-        <span>Сумма заказа: {{ orderData.orderPrice }} ₽</span>
+        <span>Сумма заказа: {{ orderData.totalOrderPrice }} ₽</span>
       </div>
 
       <div class="order__button">

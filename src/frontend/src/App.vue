@@ -17,7 +17,7 @@ export default {
     AppLayout,
   },
   created() {
-    this.$store.dispatch("Builder/init", null, { root: true });
+    this.$store.dispatch("Builder/init");
   },
 };
 </script>

@@ -23,8 +23,8 @@ import jsonMisc from "@/static/misc.json";
 
 // состояние по умолчанию
 export const resetState = () => ({
-  pizzas: [],
-  misc: [],
+  pizzas: {},
+  misc: {},
   selectedIngredients: {},
   currentDough: ITEMS_INPUT_DATA.DOUGH.DEFAULT_RADIO_CHECK,
   currentSauce: ITEMS_INPUT_DATA.SAUCE.DEFAULT_RADIO_CHECK,

@@ -68,7 +68,7 @@ export default {
           orderNumber: getRandomNumber(1000, 100000),
           pizzas: this.cart,
           additionals: Object.values(this.selectedMisc),
-          orderPrice: this.totalOrderPrice,
+          totalOrderPrice: this.totalOrderPrice,
         };
 
         this.addNewOrder(order);

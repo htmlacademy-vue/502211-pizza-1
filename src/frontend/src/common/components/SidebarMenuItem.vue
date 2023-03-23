@@ -2,7 +2,7 @@
   <RouterLink
     :to="to"
     class="layout__link"
-    :class="activeSidebarMenu === label ? 'layout__link--active' : null"
+    active-class="layout__link--active"
     @click.native="changeActiveSidebarMenu(label)"
   >
     {{ label }}
