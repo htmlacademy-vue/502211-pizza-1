@@ -5,18 +5,14 @@ import { CHANGE_AUTH_STATUS } from "@/store/mutation-types";
 import user from "@/static/user.json";
 
 // состояние по умолчанию
-export const resetState = () => ({
+export const defaultState = () => ({
   user,
   isAuthorized: false,
 });
 
 const getters = {
   isAuthorizes(state) {
-    if (state.user !== null) {
-      return true;
-    }
-
-    return false;
+    return state.user !== null;
   },
 };
 
@@ -28,7 +24,7 @@ const mutations = {
 
 export default {
   namespaced: true,
-  state: resetState(),
+  state: defaultState(),
   getters,
   mutations,
 };

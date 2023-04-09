@@ -26,11 +26,11 @@ export default {
     AppLayoutLogo,
     SidebarMenuItem,
   },
-  // подключаем данные
-  data() {
-    return {
-      SIDEBAR_MENU,
-    };
+  // дополнительные функции
+  computed: {
+    menu() {
+      return SIDEBAR_MENU;
+    },
   },
 };
 </script>

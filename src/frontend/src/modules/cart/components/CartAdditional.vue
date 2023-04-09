@@ -21,8 +21,6 @@
             class="additional-list__counter"
             :count="$itemsCounter(selectedMisc, item.name)"
             :item="item"
-            :minCount="0"
-            :maxCount="Infinity"
             :inputChangeHandler="setMiscCount"
             :minusButtonClickHandler="decreaseMiscCount"
             :plusButtonClickHandler="increaseMiscCount"

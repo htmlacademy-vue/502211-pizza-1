@@ -12,7 +12,6 @@ import {
   FETCH_PIZZAS,
   SET_EDITING_PIZZA,
   FETCH_MISC,
-  ITEM_DROP,
   CLEAR_FABRIC,
   UPDATE_NAME,
 } from "@/store/mutation-types";
@@ -22,7 +21,7 @@ import jsonPizzas from "@/static/pizza.json";
 import jsonMisc from "@/static/misc.json";
 
 // состояние по умолчанию
-export const resetState = () => ({
+export const defaultState = () => ({
   pizzas: {},
   misc: {},
   selectedIngredients: {},
@@ -149,23 +148,6 @@ const mutations = {
     state.misc = items;
   },
 
-  [ITEM_DROP](state, item) {
-    const ingredients = { ...state.selectedIngredients };
-
-    if (ingredients[item.name]) {
-      if (ingredients[item.name].amount !== MAX_INGREDIENTS_NUMBER) {
-        ingredients[item.name].amount++;
-      }
-    } else {
-      ingredients[item.name] = {
-        ...item,
-        amount: 1,
-      };
-    }
-
-    state.selectedIngredients = ingredients;
-  },
-
   [CLEAR_FABRIC](state) {
     state.selectedIngredients = {};
     state.currentDough = ITEMS_INPUT_DATA.DOUGH.DEFAULT_RADIO_CHECK;
@@ -181,7 +163,7 @@ const mutations = {
 
 export default {
   namespaced: true,
-  state: resetState(),
+  state: defaultState(),
   getters,
   actions,
   mutations,

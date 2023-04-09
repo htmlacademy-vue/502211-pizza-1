@@ -21,7 +21,6 @@ export const FETCH_MISC = "FETCH_MISC";
 export const ADD_ORDER_MISC = "ADD_ORDER_MISC";
 
 export const ADD_TO_CART = "ADD_TO_CART";
-export const ITEM_DROP = "ITEM_DROP";
 
 export const ADD_NEW_ORDER = "ADD_NEW_ORDER";
 export const DELETE_ORDER = "DELETE_ORDER";

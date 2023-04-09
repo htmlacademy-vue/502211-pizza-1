@@ -38,14 +38,6 @@ export default {
       type: Number,
       default: 0,
     },
-    minCount: {
-      type: Number,
-      required: true,
-    },
-    maxCount: {
-      type: Number,
-      required: true,
-    },
     plusButtonClickHandler: {
       type: Function,
       required: true,
@@ -65,6 +57,12 @@ export default {
   },
   // дополнительные функции
   computed: {
+    minCount() {
+      return "0";
+    },
+    maxCount() {
+      return "Infinity";
+    },
     additionalPlusButtonClass() {
       if (this.$router.currentRoute.name !== "Index") {
         return "counter__button--orange";

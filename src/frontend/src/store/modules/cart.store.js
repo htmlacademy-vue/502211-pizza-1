@@ -19,7 +19,7 @@ import {
 } from "@/store/mutation-types";
 
 // состояние по умолчанию
-export const resetState = () => ({
+export const defaultState = () => ({
   cart: [],
   deliveryType: DELIVERY_DEFAULT_TYPE,
   currentDeliveryAddress: null,
@@ -117,7 +117,7 @@ const mutations = {
 
 export default {
   namespaced: true,
-  state: resetState(),
+  state: defaultState(),
   getters,
   mutations,
 };

@@ -7,10 +7,10 @@ import modules from "@/store/modules";
 // импорт типов мутаций
 import { RESET_STORE } from "@/store/mutation-types";
 
-import { resetState as resetAuthState } from "@/store/modules/auth.store";
-import { resetState as resetBuilderState } from "@/store/modules/builder.store";
-import { resetState as resetCartState } from "@/store/modules/cart.store";
-import { resetState as resetOrdersState } from "@/store/modules/orders.store";
+import { defaultState as resetAuthState } from "@/store/modules/auth.store";
+import { defaultState as resetBuilderState } from "@/store/modules/builder.store";
+import { defaultState as resetCartState } from "@/store/modules/cart.store";
+import { defaultState as resetOrdersState } from "@/store/modules/orders.store";
 
 Vue.use(Vuex);
 

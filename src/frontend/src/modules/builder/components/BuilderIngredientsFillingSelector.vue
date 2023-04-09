@@ -19,9 +19,8 @@
           class="counter--orange ingredients__counter"
           :count="$itemsCounter(selectedIngredients, ingredient.name)"
           :item="ingredient"
-          :minCount="0"
           :maxCount="MAX_INGREDIENTS_NUMBER"
-          :inputChangeHandler="setCount"
+          :inputChangeHandler="setIngredientCount"
           :minusButtonClickHandler="decreaseIngredientCount"
           :plusButtonClickHandler="increaseIngredientCount"
         />

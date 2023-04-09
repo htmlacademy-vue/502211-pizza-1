@@ -23,8 +23,6 @@
       class="cart-list__counter"
       :count="itemData.amount"
       :item="itemData"
-      :minCount="0"
-      :maxCount="Infinity"
       :inputChangeHandler="setPizzaCount"
       :minusButtonClickHandler="decreasePizzaCount"
       :plusButtonClickHandler="increasePizzaCount"

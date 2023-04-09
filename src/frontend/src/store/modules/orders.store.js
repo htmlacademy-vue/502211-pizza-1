@@ -17,7 +17,7 @@ import {
 } from "@/store/mutation-types";
 
 // состояние по умолчанию
-export const resetState = () => ({
+export const defaultState = () => ({
   selectedMisc: {},
   showModal: false,
   editingAddress: -1,

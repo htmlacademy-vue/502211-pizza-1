@@ -1,7 +1,7 @@
 <template>
   <div class="content__constructor">
     <div class="pizza" :class="getCustomPizzaClass">
-      <AppDrop>
+      <AppDrop @drop="itemDropHandler">
         <div class="pizza__wrapper">
           <template v-for="item in selectedIngredients">
             <div
@@ -32,7 +32,12 @@
 <script>
 // импортируем компоненты
 import AppDrop from "@/common/components/AppDrop.vue";
-import { ingredientsMap, sauceMap, doughClassMap } from "@/common/constants";
+import {
+  ingredientsMap,
+  MAX_INGREDIENTS_NUMBER,
+  sauceMap,
+  doughClassMap,
+} from "@/common/constants";
 
 import { mapState } from "vuex";
 
@@ -76,6 +81,21 @@ export default {
       return `pizza__filling--${
         ingredientsMap[item.name]
       } pizza__filling--third`;
+    },
+    itemDropHandler(item) {
+      const ingredients = { ...this.selectedIngredients };
+      if (ingredients[item.name]) {
+        if (ingredients[item.name].amount !== MAX_INGREDIENTS_NUMBER) {
+          ingredients[item.name].amount++;
+          this.$emit("change", ingredients);
+        }
+      } else {
+        ingredients[item.name] = {
+          ...item,
+          amount: 1,
+        };
+        this.$emit("change", ingredients);
+      }
     },
   },
 };

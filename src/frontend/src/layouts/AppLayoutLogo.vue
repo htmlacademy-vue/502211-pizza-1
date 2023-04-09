@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <img
     src="@/assets/img/logo.svg"
     alt="V!U!E! Pizza logo"

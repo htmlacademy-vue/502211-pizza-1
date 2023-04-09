@@ -29,6 +29,8 @@ import { AUTH_FORM_INPUT_DATA } from "@/common/constants";
 import { mapState, mapMutations } from "vuex";
 import { CHANGE_AUTH_STATUS } from "@/store/mutation-types";
 
+import validator from "@/common/mixins/validator";
+
 export default {
   name: "AuthForm",
   // подключаем данные
@@ -44,6 +46,8 @@ export default {
     FormInput,
     SubmitButton,
   },
+  // подключаем миксины
+  mixins: [validator],
   // дополнительные функции
   computed: {
     ...mapState("Auth", ["user"]),
