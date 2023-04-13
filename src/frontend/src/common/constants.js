@@ -134,6 +134,10 @@ export const AUTH_FORM_INPUT_DATA = [
     inputType: "email",
     inputName: "email",
     placeholder: "example@mail.ru",
+    validations: {
+      error: "",
+      rules: ["required", "email"],
+    },
     required: true,
   },
   {
@@ -142,6 +146,10 @@ export const AUTH_FORM_INPUT_DATA = [
     inputType: "password",
     inputName: "pass",
     placeholder: "***********",
+    validations: {
+      error: "",
+      rules: ["required"],
+    },
     required: true,
   },
 ];

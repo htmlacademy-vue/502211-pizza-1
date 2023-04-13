@@ -154,7 +154,7 @@ export default {
     },
   },
   beforeCreate() {
-    if (!this.$store.state["Auth"].isAuthorized) {
+    if (!this.$store.state["Auth"].isAuthorizes) {
       this.$router.push({ name: "Login" });
     }
   },

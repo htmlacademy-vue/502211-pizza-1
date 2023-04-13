@@ -10,7 +10,8 @@
       :placeholder="formData.placeholder"
       :required="formData.required"
       :value="$data[formData.inputName]"
-      :inputChangeHandler="inputChangeHandler"
+      @inputChangeHandler="inputChangeHandler"
+      :errorText="formData.validations.error"
     />
 
     <SubmitButton

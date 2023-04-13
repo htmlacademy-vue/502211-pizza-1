@@ -11,8 +11,11 @@
         :required="required"
         :value="value"
         :disabled="disabled"
-        @change="(event) => inputChangeHandler(event, inputName)"
+        @change="$emit('inputChangeHandler', inputName)"
       />
+      <span v-if="showError" class="text-field__text">
+        {{ errorText }}
+      </span>
       <slot />
     </label>
   </div>
@@ -59,15 +62,18 @@ export default {
       type: Boolean,
       default: false,
     },
-    inputChangeHandler: {
-      type: Function,
-      default: () => {},
+    errorText: {
+      type: String,
+      default: "",
     },
   },
   // дополнительные функции
   computed: {
     slotProvided() {
       return Object.keys(this.$slots).length;
+    },
+    showError() {
+      return !!this.errorText;
     },
   },
 };

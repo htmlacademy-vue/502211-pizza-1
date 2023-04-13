@@ -7,7 +7,6 @@ import user from "@/static/user.json";
 // состояние по умолчанию
 export const defaultState = () => ({
   user,
-  isAuthorized: false,
 });
 
 const getters = {
@@ -18,7 +17,7 @@ const getters = {
 
 const mutations = {
   [CHANGE_AUTH_STATUS](state, status) {
-    state.isAuthorized = status;
+    state.isAuthorizes = status;
   },
 };
 
