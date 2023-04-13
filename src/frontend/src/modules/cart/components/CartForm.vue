@@ -42,7 +42,7 @@
             isDefaultOption ? '' : currentDeliveryAddress[formData.inputName]
           "
           :disabled="!isDefaultOption"
-          :inputChangeHandler="updateStreetValue"
+          @inputChangeHandler="updateStreetValue"
         />
       </div>
     </div>
@@ -54,7 +54,7 @@
 import FormInput from "@/common/components/FormInput.vue";
 import { OPTIONS, CART_ADDRESS_FORM_INPUT_DATA } from "@/common/constants";
 
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import {
   SET_DELIVERY_TYPE,
   SET_DELIVERY_ADDRESS,
@@ -83,12 +83,12 @@ export default {
   mixins: [formInputClassSize],
   // дополнительные функции
   computed: {
-    ...mapState("Auth", ["isAuthorized"]),
     ...mapState("Cart", ["deliveryType", "currentDeliveryAddress"]),
     ...mapState("Orders", ["userAddresses"]),
+    ...mapGetters("Auth", ["isAuthorizes"]),
 
     selectOptions() {
-      return this.isAuthorized
+      return this.isAuthorizes
         ? [...OPTIONS, ...this.userAddresses.map((it) => it.name)]
         : OPTIONS;
     },

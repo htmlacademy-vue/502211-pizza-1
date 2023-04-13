@@ -1,7 +1,4 @@
-import {
-  DELIVERY_DEFAULT_TYPE,
-  MAX_INGREDIENTS_NUMBER,
-} from "@/common/constants";
+import { DELIVERY_DEFAULT_TYPE } from "@/common/constants";
 import { getCountSum } from "@/common/utils";
 
 // подключение типов мутаций
@@ -70,11 +67,9 @@ const mutations = {
     const targetPizzaIndex = cart.findIndex((it) => it.name === pizza.name);
     const targetPizza = cart[targetPizzaIndex];
 
-    if (targetPizza.amount !== MAX_INGREDIENTS_NUMBER) {
-      targetPizza.amount++;
-      cart[targetPizzaIndex] = targetPizza;
-      state.cart = cart;
-    }
+    targetPizza.amount++;
+    cart[targetPizzaIndex] = targetPizza;
+    state.cart = cart;
   },
 
   [ADD_TO_CART](state, item) {

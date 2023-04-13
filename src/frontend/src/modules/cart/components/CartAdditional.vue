@@ -21,9 +21,11 @@
             class="additional-list__counter"
             :count="$itemsCounter(selectedMisc, item.name)"
             :item="item"
-            :inputChangeHandler="setMiscCount"
-            :minusButtonClickHandler="decreaseMiscCount"
-            :plusButtonClickHandler="increaseMiscCount"
+            :minCount="0"
+            :maxCount="Math.pow(10, 1000)"
+            @inputChangeHandler="setMiscCount"
+            @minusButtonClickHandler="decreaseMiscCount"
+            @plusButtonClickHandler="increaseMiscCount"
           />
 
           <div class="additional-list__price">

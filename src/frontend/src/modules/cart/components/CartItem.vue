@@ -23,9 +23,11 @@
       class="cart-list__counter"
       :count="itemData.amount"
       :item="itemData"
-      :inputChangeHandler="setPizzaCount"
-      :minusButtonClickHandler="decreasePizzaCount"
-      :plusButtonClickHandler="increasePizzaCount"
+      :minCount="0"
+      :maxCount="Math.pow(10, 1000)"
+      @inputChangeHandler="setPizzaCount"
+      @minusButtonClickHandler="decreasePizzaCount"
+      @plusButtonClickHandler="increasePizzaCount"
     />
 
     <div class="cart-list__price">

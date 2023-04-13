@@ -43,8 +43,8 @@ export default {
   },
   // дополнительные функции
   computed: {
-    ...mapState("Auth", ["isAuthorized"]),
     ...mapState("Cart", ["cart"]),
+    ...mapGetters("Auth", ["isAuthorizes"]),
     ...mapGetters("Cart", ["totalOrderPrice"]),
     ...mapState("Orders", ["selectedMisc", "userOrders"]),
 
@@ -62,7 +62,7 @@ export default {
     formSubmitHandler() {
       this.showModal(true);
 
-      if (this.isAuthorized) {
+      if (this.isAuthorizes) {
         const order = {
           id: this.userOrders[this.userOrders.length - 1].id + 1,
           orderNumber: getRandomNumber(1000, 100000),

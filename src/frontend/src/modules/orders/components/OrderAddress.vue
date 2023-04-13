@@ -45,7 +45,7 @@
             :placeholder="formData.placeholder"
             :required="formData.required"
             :value="$props[formData.inputName]"
-            :inputChangeHandler="inputChangeHandler"
+            @inputChangeHandler="inputChangeHandler"
           />
         </div>
 

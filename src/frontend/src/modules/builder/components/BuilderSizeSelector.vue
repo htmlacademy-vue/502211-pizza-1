@@ -8,7 +8,7 @@
         :itemMap="sizeMap"
         :itemName="ITEMS_INPUT_DATA.SIZE.ITEM_NAME"
         :value="currentSize"
-        :inputChangeHandler="updateSizeValue"
+        @inputChangeHandler="updateSizeValue"
       />
     </div>
   </div>

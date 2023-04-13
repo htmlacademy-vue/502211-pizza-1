@@ -56,10 +56,6 @@ export default {
       type: String,
       required: true,
     },
-    inputChangeHandler: {
-      type: Function,
-      required: true,
-    },
   },
   // дополнительные функции
   computed: {
@@ -88,7 +84,7 @@ export default {
       const updatedValue = Object.entries(this.itemMap).find(
         ([, b]) => b === event.target.value
       )[0];
-      this.inputChangeHandler(updatedValue);
+      this.$emit("inputChangeHandler", { updatedValue });
     },
   },
 };

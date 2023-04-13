@@ -12,7 +12,7 @@
       type="text"
       name="counter"
       class="counter__input"
-      :value="itemCount"
+      :value="count"
       @change="counterChangeHandler"
     />
     <button
@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import { MAX_INGREDIENTS_NUMBER } from "../constants";
-
 export default {
   name: "ItemCounter",
   // получение свойств из родительского компонента
@@ -38,40 +36,27 @@ export default {
       type: Number,
       default: 0,
     },
-    plusButtonClickHandler: {
-      type: Function,
+    minCount: {
+      type: Number,
       required: true,
     },
-    minusButtonClickHandler: {
-      type: Function,
+    maxCount: {
+      type: Number,
       required: true,
     },
     item: {
       type: Object,
       required: true,
     },
-    inputChangeHandler: {
-      type: Function,
-      required: true,
-    },
   },
   // дополнительные функции
   computed: {
-    minCount() {
-      return "0";
-    },
-    maxCount() {
-      return "Infinity";
-    },
     additionalPlusButtonClass() {
       if (this.$router.currentRoute.name !== "Index") {
         return "counter__button--orange";
       } else {
         return null;
       }
-    },
-    itemCount() {
-      return this.count;
     },
   },
   // добавили методы
@@ -90,15 +75,25 @@ export default {
         value = 0;
       } else if (
         event.target.value >= 0 &&
-        event.target.value <= MAX_INGREDIENTS_NUMBER
+        event.target.value <= this.maxCount
       ) {
         value = parseInt(value);
-      } else if (value > MAX_INGREDIENTS_NUMBER) {
-        value = MAX_INGREDIENTS_NUMBER;
+      } else if (value > this.maxCount) {
+        value = this.maxCount;
       }
 
-      this.inputChangeHandler({
+      this.$emit("inputChangeHandler", {
         count: value,
+        item: this.item,
+      });
+    },
+    minusButtonClickHandler() {
+      this.$emit("minusButtonClickHandler", {
+        item: this.item,
+      });
+    },
+    plusButtonClickHandler() {
+      this.$emit("plusButtonClickHandler", {
         item: this.item,
       });
     },

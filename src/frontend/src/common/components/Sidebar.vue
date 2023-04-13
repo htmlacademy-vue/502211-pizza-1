@@ -5,7 +5,7 @@
     </RouterLink>
 
     <SidebarMenuItem
-      v-for="(item, id) in Object.values(SIDEBAR_MENU)"
+      v-for="(item, id) in Object.values(menu)"
       :key="id"
       :to="item.LINK"
       :label="item.LABEL"
