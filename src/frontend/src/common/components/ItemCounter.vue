@@ -1,10 +1,10 @@
 <template>
-  <div class="counter counter--orange ingredients__counter">
+  <div class="counter">
     <button
       type="button"
       class="counter__button counter__button--minus"
-      :disabled="minusButtonDisabled"
-      @click="minusButtonClickHandler"
+      :disabled="count === minCount"
+      @click="minusButtonClickHandler(item)"
     >
       <span class="visually-hidden">Меньше</span>
     </button>
@@ -12,14 +12,15 @@
       type="text"
       name="counter"
       class="counter__input"
-      :value="itemCount"
+      :value="count"
       @change="counterChangeHandler"
     />
     <button
       type="button"
       class="counter__button counter__button--plus"
-      :disabled="plusButtonDisabled"
-      @click="plusButtonClickHandler"
+      :class="additionalPlusButtonClass"
+      :disabled="count === maxCount"
+      @click="plusButtonClickHandler(item)"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -27,82 +28,76 @@
 </template>
 
 <script>
-import { MAX_INGREDIENTS_NUMBER } from "../constants";
-
 export default {
   name: "ItemCounter",
   // получение свойств из родительского компонента
   props: {
-    ingredient: {
-      type: [Object, undefined],
+    count: {
+      type: Number,
+      default: 0,
     },
-    ingredients: {
-      type: Array,
+    minCount: {
+      type: Number,
       required: true,
     },
-    ingredientName: {
-      type: String,
+    maxCount: {
+      type: Number,
+      required: true,
+    },
+    plusButtonClickHandler: {
+      type: Function,
+      required: true,
+    },
+    minusButtonClickHandler: {
+      type: Function,
+      required: true,
+    },
+    item: {
+      type: Object,
+      required: true,
+    },
+    inputChangeHandler: {
+      type: Function,
       required: true,
     },
   },
   // дополнительные функции
   computed: {
-    minusButtonDisabled() {
-      return this.ingredient?.amount === undefined;
-    },
-    plusButtonDisabled() {
-      return this.ingredient?.amount === MAX_INGREDIENTS_NUMBER;
-    },
-    itemCount() {
-      return this.ingredient?.amount || "0";
+    additionalPlusButtonClass() {
+      if (this.$router.currentRoute.name !== "Index") {
+        return "counter__button--orange";
+      } else {
+        return null;
+      }
     },
   },
   // добавили методы
   methods: {
-    minusButtonClickHandler() {
-      if (this.ingredient.amount !== 0) {
-        const updatedIngredient = { ...this.ingredient };
-        updatedIngredient.amount--;
-        this.$emit("minusButtonClick", updatedIngredient);
-      }
-    },
-    plusButtonClickHandler() {
-      if (this.ingredient === undefined) {
-        const ingredientTemplate = {
-          ...this.ingredients.find((it) => it.name === this.ingredientName),
-        };
-        ingredientTemplate.amount = 1;
-        this.$emit("plusButtonClick", ingredientTemplate);
-      } else {
-        const updatedIngredient = { ...this.ingredient };
-        updatedIngredient.amount++;
-        this.$emit("plusButtonClick", updatedIngredient);
-      }
-    },
     counterChangeHandler(event) {
       let value = parseInt(event.target.value);
+      const isInputValid =
+        String(parseInt(event.target.value)).length ===
+        event.target.value.length;
 
-      if (isNaN(value)) {
-        value = this.itemCount;
-      } else {
-        if (value < 0) {
-          value = 0;
-        } else if (
-          event.target.value >= 0 &&
-          event.target.value <= MAX_INGREDIENTS_NUMBER
-        ) {
-          value = parseInt(value);
-        } else if (value > MAX_INGREDIENTS_NUMBER) {
-          value = MAX_INGREDIENTS_NUMBER;
-        }
+      if (!isInputValid) {
+        return;
       }
 
-      const ingredientTemplate = {
-        ...this.ingredients.find((it) => it.name === this.ingredientName),
-      };
+      if (value < 0) {
+        value = 0;
+      } else if (
+        event.target.value >= 0 &&
+        event.target.value <= this.maxCount
+      ) {
+        value = parseInt(value);
+      } else if (value > this.maxCount) {
+        value = this.maxCount;
+      }
 
-      ingredientTemplate.amount = value;
-      this.$emit("update", ingredientTemplate);
+      this.inputChangeHandler({
+        count: value,
+        item: this.item,
+      });
     },
   },
 };

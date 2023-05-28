@@ -8,13 +8,16 @@
 
 <script>
 // импортируем компоненты
-import AppLayout from "@/layouts/AppLayout";
+import AppLayout from "@/layouts/AppLayout.vue";
 
 export default {
   name: "App",
   // подключаем компоненты
   components: {
     AppLayout,
+  },
+  created() {
+    this.$store.dispatch("Builder/init");
   },
 };
 </script>

@@ -10,16 +10,10 @@
           :itemName="ITEMS_INPUT_DATA.SAUCE.ITEM_NAME"
           :containerMessage="ITEMS_INPUT_DATA.SAUCE.CONTAINER_MESSAGE"
           :value="currentSauce"
-          @change="$emit('change', $event)"
+          :inputChangeHandler="updateSauceValue"
         />
 
-        <IngredientsFilling
-          :ingredients="ingredients"
-          :selectedIngredients="selectedIngredients"
-          @update="$emit('update', $event)"
-          @plusButtonClick="$emit('plusButtonClick', $event)"
-          @minusButtonClick="$emit('minusButtonClick', $event)"
-        />
+        <IngredientsFilling />
       </div>
     </div>
   </div>
@@ -27,9 +21,12 @@
 
 <script>
 // импортируем компоненты
-import IngredientsFilling from "./BuilderIngredientsFillingSelector.vue";
+import IngredientsFilling from "@/modules/builder/components/BuilderIngredientsFillingSelector.vue";
 import RadioButton from "@/common/components/RadioButton.vue";
 import { sauceMap, ITEMS_INPUT_DATA } from "@/common/constants";
+
+import { mapState, mapMutations } from "vuex";
+import { UPDATE_SAUCE_VALUE } from "@/store/mutation-types";
 
 export default {
   name: "IngredientsSelector",
@@ -45,24 +42,20 @@ export default {
     IngredientsFilling,
     RadioButton,
   },
-  // получение свойств из родительского компонента
-  props: {
-    sauces: {
-      type: Array,
-      required: true,
+  // дополнительные функции
+  computed: {
+    ...mapState("Builder", ["pizzas"]),
+    ...mapState("Builder", ["currentSauce"]),
+
+    sauces() {
+      return this.pizzas.sauces;
     },
-    ingredients: {
-      type: Array,
-      required: true,
-    },
-    currentSauce: {
-      type: String,
-      required: true,
-    },
-    selectedIngredients: {
-      type: Object,
-      required: true,
-    },
+  },
+  // добавили методы
+  methods: {
+    ...mapMutations("Builder", {
+      updateSauceValue: UPDATE_SAUCE_VALUE,
+    }),
   },
 };
 </script>

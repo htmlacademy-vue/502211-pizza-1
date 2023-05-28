@@ -7,7 +7,7 @@
         :itemMap="doughMap"
         :itemName="ITEMS_INPUT_DATA.DOUGH.ITEM_NAME"
         :value="currentDough"
-        @change="$emit('change', $event)"
+        :inputChangeHandler="updateDoughValue"
       />
     </div>
   </div>
@@ -15,8 +15,11 @@
 
 <script>
 // импортируем компоненты
-import RadioButton from "@/common/components/RadioButton";
+import RadioButton from "@/common/components/RadioButton.vue";
 import { doughMap, ITEMS_INPUT_DATA } from "@/common/constants";
+
+import { mapState, mapMutations } from "vuex";
+import { UPDATE_DOUGH_VALUE } from "@/store/mutation-types";
 
 export default {
   name: "DoughSelector",
@@ -31,16 +34,20 @@ export default {
   components: {
     RadioButton,
   },
-  // получение свойств из родительского компонента
-  props: {
-    dough: {
-      type: Array,
-      required: true,
+  // дополнительные функции
+  computed: {
+    ...mapState("Builder", ["pizzas"]),
+    ...mapState("Builder", ["currentDough"]),
+
+    dough() {
+      return this.pizzas.dough;
     },
-    currentDough: {
-      type: String,
-      required: true,
-    },
+  },
+  // добавили методы
+  methods: {
+    ...mapMutations("Builder", {
+      updateDoughValue: UPDATE_DOUGH_VALUE,
+    }),
   },
 };
 </script>

@@ -1,6 +1,7 @@
 .user {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 
   margin-bottom: 33px;
 }
@@ -22,4 +23,18 @@
 
   cursor: pointer;
   vertical-align: middle;
+}
+
+.user__phone {
+  width: 100%;
+  margin-top: 20px;
+
+  font-size: 16px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 19px;
+
+  & span {
+    font-weight: 400;
+  }
 }
