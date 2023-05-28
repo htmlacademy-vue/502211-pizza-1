@@ -42,7 +42,7 @@
             isDefaultOption ? '' : currentDeliveryAddress[formData.inputName]
           "
           :disabled="!isDefaultOption"
-          @inputChangeHandler="updateStreetValue"
+          :inputChangeHandler="updateStreetValue"
         />
       </div>
     </div>

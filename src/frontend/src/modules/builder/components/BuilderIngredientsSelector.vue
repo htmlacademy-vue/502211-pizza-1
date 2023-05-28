@@ -10,7 +10,7 @@
           :itemName="ITEMS_INPUT_DATA.SAUCE.ITEM_NAME"
           :containerMessage="ITEMS_INPUT_DATA.SAUCE.CONTAINER_MESSAGE"
           :value="currentSauce"
-          @inputChangeHandler="updateSauceValue"
+          :inputChangeHandler="updateSauceValue"
         />
 
         <IngredientsFilling />

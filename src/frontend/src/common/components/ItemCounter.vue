@@ -44,8 +44,20 @@ export default {
       type: Number,
       required: true,
     },
+    plusButtonClickHandler: {
+      type: Function,
+      required: true,
+    },
+    minusButtonClickHandler: {
+      type: Function,
+      required: true,
+    },
     item: {
       type: Object,
+      required: true,
+    },
+    inputChangeHandler: {
+      type: Function,
       required: true,
     },
   },
@@ -82,18 +94,8 @@ export default {
         value = this.maxCount;
       }
 
-      this.$emit("inputChangeHandler", {
+      this.inputChangeHandler({
         count: value,
-        item: this.item,
-      });
-    },
-    minusButtonClickHandler() {
-      this.$emit("minusButtonClickHandler", {
-        item: this.item,
-      });
-    },
-    plusButtonClickHandler() {
-      this.$emit("plusButtonClickHandler", {
         item: this.item,
       });
     },

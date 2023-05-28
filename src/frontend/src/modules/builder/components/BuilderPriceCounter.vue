@@ -64,7 +64,7 @@ export default {
         size: this.currentSize,
         sauce: this.currentSauce,
         ingredients: this.selectedIngredients,
-        pizzaName: this.pizzaName,
+        name: this.pizzaName,
         price: this.totalPizzaPrice,
         amount: 1,
         id: this.editingPizza

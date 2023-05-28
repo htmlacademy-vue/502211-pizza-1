@@ -21,9 +21,9 @@
           :item="ingredient"
           :minCount="0"
           :maxCount="MAX_INGREDIENTS_NUMBER"
-          @inputChangeHandler="setIngredientCount"
-          @minusButtonClickHandler="decreaseIngredientCount"
-          @plusButtonClickHandler="increaseIngredientCount"
+          :inputChangeHandler="setIngredientCount"
+          :minusButtonClickHandler="decreaseIngredientCount"
+          :plusButtonClickHandler="increaseIngredientCount"
         />
       </li>
     </ul>

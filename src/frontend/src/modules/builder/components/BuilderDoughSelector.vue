@@ -7,7 +7,7 @@
         :itemMap="doughMap"
         :itemName="ITEMS_INPUT_DATA.DOUGH.ITEM_NAME"
         :value="currentDough"
-        @inputChangeHandler="updateDoughValue"
+        :inputChangeHandler="updateDoughValue"
       />
     </div>
   </div>

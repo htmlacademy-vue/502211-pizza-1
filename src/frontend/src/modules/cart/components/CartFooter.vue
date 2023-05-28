@@ -60,18 +60,19 @@ export default {
     }),
 
     formSubmitHandler() {
-      this.showModal(true);
-
       if (this.isAuthorizes) {
         const order = {
           id: this.userOrders[this.userOrders.length - 1].id + 1,
           orderNumber: getRandomNumber(1000, 100000),
           pizzas: this.cart,
           additionals: Object.values(this.selectedMisc),
-          totalOrderPrice: this.totalOrderPrice,
+          orderPrice: this.totalOrderPrice,
         };
 
         this.addNewOrder(order);
+        this.showModal(true);
+      } else {
+        this.$router.push({ name: "Login" });
       }
     },
   },

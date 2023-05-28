@@ -25,9 +25,9 @@
       :item="itemData"
       :minCount="0"
       :maxCount="Math.pow(10, 1000)"
-      @inputChangeHandler="setPizzaCount"
-      @minusButtonClickHandler="decreasePizzaCount"
-      @plusButtonClickHandler="increasePizzaCount"
+      :inputChangeHandler="setPizzaCount"
+      :minusButtonClickHandler="decreasePizzaCount"
+      :plusButtonClickHandler="increasePizzaCount"
     />
 
     <div class="cart-list__price">
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import ItemCounter from "@/common/components/ItemCounter";
+import ItemCounter from "@/common/components/ItemCounter.vue";
 import { doughSpellingMap } from "@/common/constants";
 import {
   getDoughText,

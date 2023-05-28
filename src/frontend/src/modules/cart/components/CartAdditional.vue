@@ -23,9 +23,9 @@
             :item="item"
             :minCount="0"
             :maxCount="Math.pow(10, 1000)"
-            @inputChangeHandler="setMiscCount"
-            @minusButtonClickHandler="decreaseMiscCount"
-            @plusButtonClickHandler="increaseMiscCount"
+            :inputChangeHandler="setMiscCount"
+            :minusButtonClickHandler="decreaseMiscCount"
+            :plusButtonClickHandler="increaseMiscCount"
           />
 
           <div class="additional-list__price">
