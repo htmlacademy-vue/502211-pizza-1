@@ -29,7 +29,7 @@ export default {
     ...mapState("Orders", ["userOrders"]),
   },
   beforeCreate() {
-    if (!this.$store.state["Auth"].isAuthorizes) {
+    if (!this.$store.state.getters["Auth"].isAuthorizes) {
       this.$router.push({ name: "Login" });
     }
   },

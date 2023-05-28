@@ -54,7 +54,7 @@ import { SIDEBAR_MENU } from "@/common/constants";
 
 import { mapState, mapGetters, mapMutations } from "vuex";
 import {
-  CHANGE_AUTH_STATUS,
+  SELECT_USER,
   CHANGE_ACTIVE_SIDEBAR_MENU,
 } from "@/store/mutation-types";
 
@@ -75,7 +75,7 @@ export default {
   // добавили методы
   methods: {
     ...mapMutations("Auth", {
-      changeAuthStatus: CHANGE_AUTH_STATUS,
+      selectUser: SELECT_USER,
     }),
     ...mapMutations("Orders", {
       changeActiveSidebarMenu: CHANGE_ACTIVE_SIDEBAR_MENU,
@@ -84,7 +84,7 @@ export default {
       this.changeActiveSidebarMenu(SIDEBAR_MENU.USER_DATA.LABEL);
     },
     logoutButtonClickHandler() {
-      this.changeAuthStatus(false);
+      this.selectUser(null);
       if (this.$router.currentRoute.name !== "Index") {
         this.$router.push({ name: "Index" });
       }

@@ -1,12 +1,9 @@
 // подключение типов мутаций
-import { CHANGE_AUTH_STATUS } from "@/store/mutation-types";
-
-// подключение тестовых данных
-import user from "@/static/user.json";
+import { SELECT_USER } from "@/store/mutation-types";
 
 // состояние по умолчанию
 export const defaultState = () => ({
-  user,
+  user: null,
 });
 
 const getters = {
@@ -16,8 +13,8 @@ const getters = {
 };
 
 const mutations = {
-  [CHANGE_AUTH_STATUS](state, status) {
-    state.isAuthorizes = status;
+  [SELECT_USER](state, user) {
+    state.user = user;
   },
 };
 
