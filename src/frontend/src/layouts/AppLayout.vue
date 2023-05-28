@@ -1,21 +1,22 @@
 <template>
-  <div>
-    <AppLayoutHeader />
-    <main class="content">
-      <slot />
-    </main>
-  </div>
+  <Component :is="layout">
+    <slot />
+  </Component>
 </template>
 
 <script>
 // импортируем компоненты
-import AppLayoutHeader from "@/layouts/AppLayoutHeader.vue";
+const defaultLayout = "AppLayoutDefault";
 
 export default {
   name: "AppLayout",
-  // подключаем компоненты
-  components: {
-    AppLayoutHeader,
+  // дополнительные функции
+  computed: {
+    layout() {
+      const layout = this.$route.meta.layout || defaultLayout;
+
+      return () => import(`@/layouts/${layout}.vue`);
+    },
   },
 };
 </script>
