@@ -7,7 +7,7 @@
       <h1 class="title title--small">Авторизуйтесь на сайте</h1>
     </div>
 
-    <AuthForm @submit.prevent="login" />
+    <AuthForm :login="login" />
   </div>
 </template>
 
@@ -23,6 +23,16 @@ export default {
   data: () => ({
     email: "",
     password: "",
+    validations: {
+      email: {
+        error: "",
+        rules: ["required", "email"],
+      },
+      password: {
+        error: "",
+        rules: ["required"],
+      },
+    },
   }),
   // добавили вычисляемые свойства
   watch: {

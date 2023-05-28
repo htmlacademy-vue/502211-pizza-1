@@ -131,6 +131,7 @@ export const AUTH_FORM_INPUT_DATA = [
   {
     size: "",
     text: "E-mail",
+    inputModel: "email",
     inputType: "email",
     inputName: "email",
     placeholder: "example@mail.ru",
@@ -143,6 +144,7 @@ export const AUTH_FORM_INPUT_DATA = [
   {
     size: "",
     text: "Пароль",
+    inputModel: "password",
     inputType: "password",
     inputName: "pass",
     placeholder: "***********",
