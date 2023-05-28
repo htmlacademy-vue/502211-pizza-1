@@ -10,6 +10,7 @@ import {
   DECREASE_INGREDIENT_COUNT,
   INCREASE_INGREDIENT_COUNT,
   FETCH_PIZZAS,
+  ITEM_DROP,
   SET_EDITING_PIZZA,
   FETCH_MISC,
   CLEAR_FABRIC,
@@ -146,6 +147,23 @@ const mutations = {
 
   [FETCH_MISC](state, items) {
     state.misc = items;
+  },
+
+  [ITEM_DROP](state, item) {
+    const ingredients = { ...state.selectedIngredients };
+
+    if (ingredients[item.name]) {
+      if (ingredients[item.name].amount !== MAX_INGREDIENTS_NUMBER) {
+        ingredients[item.name].amount++;
+      }
+    } else {
+      ingredients[item.name] = {
+        ...item,
+        amount: 1,
+      };
+    }
+
+    state.selectedIngredients = ingredients;
   },
 
   [CLEAR_FABRIC](state) {
