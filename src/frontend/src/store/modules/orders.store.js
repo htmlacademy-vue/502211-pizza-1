@@ -2,13 +2,11 @@ import { SIDEBAR_MENU } from "@/common/constants";
 
 // подключение типов мутаций
 import {
-  SET_MISC_COUNT,
-  DECREASE_MISC_COUNT,
-  INCREASE_MISC_COUNT,
-  ADD_ORDER_MISC,
+  FETCH_USER_ORDERS,
   ADD_NEW_ORDER,
   DELETE_ORDER,
   SET_EDITING_ADDRESS,
+  FETCH_USER_ADDRESSES,
   ADD_NEW_ADDRESS,
   EDIT_ADDRESS,
   DELETE_ADDRESS,
@@ -17,343 +15,74 @@ import {
 } from "@/store/mutation-types";
 
 // состояние по умолчанию
-export const defaultState = () => ({
-  selectedMisc: {},
+export const defaultState = (state) => ({
   showModal: false,
   editingAddress: -1,
+  userOrders: state["Orders"].userOrders,
+  userAddresses: state["Orders"].userAddresses,
+  activeSidebarMenu: state["Orders"].activeSidebarMenu,
 });
 
 export const setupState = () => ({
-  selectedMisc: {},
   showModal: false,
   editingAddress: -1,
+  userOrders: [],
+  userAddresses: [],
   activeSidebarMenu: SIDEBAR_MENU.USER_DATA.LABEL,
-  userAddresses: [
-    {
-      id: 1,
-      name: "Адрес №1. Тест",
-      street: "Невский пр.",
-      house: "22",
-      apartment: "46",
-      comment: "Позвоните, пожалуйста, от проходной",
-    },
-    {
-      id: 2,
-      name: "Адрес №1",
-      street: "Невский пр.",
-      house: "22",
-      apartment: "46",
-      comment: "Позвоните, пожалуйста, от проходной",
-    },
-  ],
-  userOrders: [
-    {
-      id: 1,
-      orderNumber: 11199929,
-      pizzas: [
-        {
-          name: "Капричоза",
-          dough: "Тонкое",
-          size: "30 см",
-          sauce: "Томатный",
-          ingredients: {
-            Грибы: {
-              id: 1,
-              name: "Грибы",
-              image: "@/public/img/filling/mushrooms.svg",
-              price: 33,
-              amount: 1,
-            },
-            Лук: {
-              id: 7,
-              name: "Лук",
-              image: "@/public/img/filling/onion.svg",
-              price: 21,
-              amount: 1,
-            },
-            Ветчина: {
-              id: 4,
-              name: "Ветчина",
-              image: "@/public/img/filling/ham.svg",
-              price: 42,
-              amount: 1,
-            },
-            Пармезан: {
-              id: 14,
-              name: "Пармезан",
-              image: "@/public/img/filling/parmesan.svg",
-              price: 35,
-              amount: 1,
-            },
-            Ананас: {
-              id: 5,
-              name: "Ананас",
-              image: "@/public/img/filling/ananas.svg",
-              price: 25,
-              amount: 1,
-            },
-            Бекон: {
-              id: 6,
-              name: "Бекон",
-              image: "@/public/img/filling/bacon.svg",
-              price: 42,
-              amount: 1,
-            },
-            "Блю чиз": {
-              id: 15,
-              name: "Блю чиз",
-              image: "@/public/img/filling/blue_cheese.svg",
-              price: 50,
-              amount: 1,
-            },
-          },
-          amount: 1,
-          price: 782,
-        },
-        {
-          name: "Моя любимая",
-          dough: "Тонкое",
-          size: "30 см",
-          sauce: "Томатный",
-          ingredients: {
-            Грибы: {
-              id: 1,
-              name: "Грибы",
-              image: "@/public/img/filling/mushrooms.svg",
-              price: 33,
-              amount: 1,
-            },
-            Лук: {
-              id: 7,
-              name: "Лук",
-              image: "@/public/img/filling/onion.svg",
-              price: 21,
-              amount: 1,
-            },
-            Ветчина: {
-              id: 4,
-              name: "Ветчина",
-              image: "@/public/img/filling/ham.svg",
-              price: 42,
-              amount: 1,
-            },
-            Пармезан: {
-              id: 14,
-              name: "Пармезан",
-              image: "@/public/img/filling/parmesan.svg",
-              price: 35,
-              amount: 1,
-            },
-            Ананас: {
-              id: 5,
-              name: "Ананас",
-              image: "@/public/img/filling/ananas.svg",
-              price: 25,
-              amount: 1,
-            },
-          },
-          amount: 2,
-          price: 782,
-        },
-      ],
-      additionals: [
-        {
-          name: "Coca-Cola 0,5 литра",
-          price: 56,
-          image: "@/public/img/cola.svg",
-          amount: 1,
-        },
-        {
-          name: "Острый соус",
-          price: 10,
-          image: "@/public/img/sauce.svg",
-          amount: 1,
-        },
-        {
-          name: "Картошка из печи",
-          price: 170,
-          image: "@/public/img/potato.svg",
-          amount: 1,
-        },
-      ],
-      totalOrderPrice: 1564,
-    },
-    {
-      id: 2,
-      orderNumber: 11199929,
-      pizzas: [
-        {
-          name: "Капричоза",
-          dough: "Тонкое",
-          size: "30 см",
-          sauce: "Томатный",
-          ingredients: {
-            Грибы: {
-              id: 1,
-              name: "Грибы",
-              image: "@/public/img/filling/mushrooms.svg",
-              price: 33,
-              amount: 1,
-            },
-            Лук: {
-              id: 7,
-              name: "Лук",
-              image: "@/public/img/filling/onion.svg",
-              price: 21,
-              amount: 1,
-            },
-            Ветчина: {
-              id: 4,
-              name: "Ветчина",
-              image: "@/public/img/filling/ham.svg",
-              price: 42,
-              amount: 1,
-            },
-            Пармезан: {
-              id: 14,
-              name: "Пармезан",
-              image: "@/public/img/filling/parmesan.svg",
-              price: 35,
-              amount: 1,
-            },
-            Ананас: {
-              id: 5,
-              name: "Ананас",
-              image: "@/public/img/filling/ananas.svg",
-              price: 25,
-              amount: 1,
-            },
-            Бекон: {
-              id: 6,
-              name: "Бекон",
-              image: "@/public/img/filling/bacon.svg",
-              price: 42,
-              amount: 1,
-            },
-            "Блю чиз": {
-              id: 15,
-              name: "Блю чиз",
-              image: "@/public/img/filling/blue_cheese.svg",
-              price: 50,
-              amount: 1,
-            },
-          },
-          amount: 1,
-          price: 782,
-        },
-        {
-          name: "Моя любимая",
-          dough: "Тонкое",
-          size: "30 см",
-          sauce: "Томатный",
-          ingredients: {
-            Грибы: {
-              id: 1,
-              name: "Грибы",
-              image: "@/public/img/filling/mushrooms.svg",
-              price: 33,
-              amount: 1,
-            },
-            Лук: {
-              id: 7,
-              name: "Лук",
-              image: "@/public/img/filling/onion.svg",
-              price: 21,
-              amount: 1,
-            },
-            Ветчина: {
-              id: 4,
-              name: "Ветчина",
-              image: "@/public/img/filling/ham.svg",
-              price: 42,
-              amount: 1,
-            },
-            Пармезан: {
-              id: 14,
-              name: "Пармезан",
-              image: "@/public/img/filling/parmesan.svg",
-              price: 35,
-              amount: 1,
-            },
-            Ананас: {
-              id: 5,
-              name: "Ананас",
-              image: "@/public/img/filling/ananas.svg",
-              price: 25,
-              amount: 1,
-            },
-          },
-          amount: 2,
-          price: 782,
-        },
-      ],
-      additionals: [
-        {
-          name: "Coca-Cola 0,5 литра",
-          price: 56,
-          image: "@/public/img/cola.svg",
-          amount: 1,
-        },
-        {
-          name: "Острый соус",
-          price: 10,
-          image: "@/public/img/sauce.svg",
-          amount: 1,
-        },
-        {
-          name: "Картошка из печи",
-          price: 170,
-          image: "@/public/img/potato.svg",
-          amount: 1,
-        },
-      ],
-      totalOrderPrice: 1564,
-    },
-  ],
 });
 
+const actions = {
+  // получение адреса пользователя
+  async fetchUserAddresses({ commit }) {
+    const addresses = await this.$api.addresses.query();
+
+    commit(FETCH_USER_ADDRESSES, addresses);
+  },
+
+  // получение адреса пользователя
+  async fetchUserOrders({ commit }) {
+    const orders = await this.$api.orders.query();
+
+    commit(FETCH_USER_ORDERS, orders);
+  },
+
+  // создение нового адреса пользователя
+  async postAddress({ commit }, newAddress) {
+    const address = await this.$api.addresses.post(newAddress);
+
+    commit(ADD_NEW_ADDRESS, address);
+  },
+
+  // обновление адреса пользователя
+  async putAddress({ commit }, updatedAddress) {
+    await this.$api.addresses.put(updatedAddress);
+
+    commit(EDIT_ADDRESS, updatedAddress);
+  },
+
+  // удаление адреса пользователя
+  async deleteAddress({ commit }, id) {
+    await this.$api.addresses.delete(id);
+
+    commit(DELETE_ADDRESS, id);
+  },
+
+  // создание заказа пользователя
+  async postOrder(_, newOrder) {
+    await this.$api.orders.post(newOrder);
+  },
+
+  // удалание заказа пользователя
+  async deleteOrder({ commit }, id) {
+    await this.$api.orders.delete(id);
+
+    commit(DELETE_ORDER, id);
+  },
+};
+
 const mutations = {
-  [SET_MISC_COUNT](state, { count, item }) {
-    const selectedMisc = { ...state.selectedMisc };
-    const miscName = item.name;
-
-    if (count !== 0) {
-      selectedMisc[miscName] = this.state["Builder"].misc.find(
-        (it) => it.name === miscName
-      );
-      selectedMisc[miscName].amount = count;
-    } else {
-      delete selectedMisc[miscName];
-    }
-
-    state.selectedMisc = { ...selectedMisc };
-  },
-
-  [DECREASE_MISC_COUNT](state, misc) {
-    const selectedMisc = { ...state.selectedMisc };
-
-    if (selectedMisc[misc.name].amount !== 0) {
-      selectedMisc[misc.name].amount--;
-    }
-
-    state.selectedMisc = { ...selectedMisc };
-  },
-
-  [INCREASE_MISC_COUNT](state, misc) {
-    const selectedMisc = { ...state.selectedMisc };
-
-    if (selectedMisc[misc.name]) {
-      selectedMisc[misc.name].amount++;
-    } else {
-      selectedMisc[misc.name] = misc;
-      selectedMisc[misc.name].amount = 1;
-    }
-
-    state.selectedMisc = { ...selectedMisc };
-  },
-
-  [ADD_ORDER_MISC](state, misc) {
-    state.selectedMisc = misc;
+  [FETCH_USER_ORDERS](state, orders) {
+    state.userOrders = orders;
   },
 
   [ADD_NEW_ORDER](state, order) {
@@ -366,6 +95,10 @@ const mutations = {
 
   [SET_EDITING_ADDRESS](state, id) {
     state.editingAddress = id;
+  },
+
+  [FETCH_USER_ADDRESSES](state, addresses) {
+    state.userAddresses = addresses;
   },
 
   [ADD_NEW_ADDRESS](state, address) {
@@ -396,5 +129,6 @@ const mutations = {
 export default {
   namespaced: true,
   state: setupState(),
+  actions,
   mutations,
 };

@@ -1,31 +1,52 @@
 import { DELIVERY_DEFAULT_TYPE } from "@/common/constants";
-import { getCountSum } from "@/common/utils";
 
 // подключение типов мутаций
 import {
   SET_PIZZA_COUNT,
-  UPDATE_EXISTING_PIZZA,
   DECREASE_PIZZA_COUNT,
   INCREASE_PIZZA_COUNT,
+  UPDATE_EXISTING_PIZZA,
+  SET_MISC_COUNT,
+  DECREASE_MISC_COUNT,
+  INCREASE_MISC_COUNT,
+  ADD_ORDER_MISC,
   ADD_TO_CART,
   SET_DELIVERY_TYPE,
   SET_DELIVERY_ADDRESS,
   UPDATE_STREET_VALUE,
   UPDATE_HOUSE_VALUE,
   UPDATE_APARTMENT_VALUE,
+  UPDATE_PHONE_VALUE,
 } from "@/store/mutation-types";
 
 // состояние по умолчанию
 export const defaultState = () => ({
   cart: [],
+  selectedMisc: [],
   deliveryType: DELIVERY_DEFAULT_TYPE,
   currentDeliveryAddress: null,
+  phone: "",
 });
 
 const getters = {
-  totalOrderPrice(state, _, rootState) {
-    const pizzasPrice = getCountSum(state.cart);
-    const miscPrice = getCountSum(Object.values(rootState.Orders.selectedMisc));
+  totalOrderPrice(state, _, rootState, rootGetters) {
+    const pizzasPrice = state.cart.reduce((prev, curr) => {
+      return (
+        prev +
+        rootGetters.totalPizzaPrice(
+          curr.sizeId,
+          curr.doughId,
+          curr.sauceId,
+          curr.ingredients,
+          rootGetters.getEntityById
+        ) *
+          curr.amount
+      );
+    }, 0);
+    const miscPrice = rootGetters.getCountSum(
+      state.selectedMisc,
+      rootState.misc
+    );
 
     return pizzasPrice + miscPrice;
   },
@@ -38,6 +59,35 @@ const mutations = {
     const targetPizza = cart[targetPizzaIndex];
 
     targetPizza.amount = count;
+
+    if (count !== 0) {
+      cart[targetPizzaIndex] = targetPizza;
+      state.cart = cart;
+    } else {
+      state.cart = cart.filter((it) => it.name !== item.name);
+    }
+  },
+
+  [DECREASE_PIZZA_COUNT](state, pizza) {
+    const cart = [...state.cart];
+    const targetPizzaIndex = cart.findIndex((it) => it.name === pizza.name);
+    const targetPizza = cart[targetPizzaIndex];
+
+    if (targetPizza.amount !== 0) {
+      targetPizza.amount--;
+      cart[targetPizzaIndex] = targetPizza;
+      state.cart = cart;
+    } else {
+      state.cart = cart.filter((it) => it.name !== pizza.name);
+    }
+  },
+
+  [INCREASE_PIZZA_COUNT](state, pizza) {
+    const cart = [...state.cart];
+    const targetPizzaIndex = cart.findIndex((it) => it.name === pizza.name);
+    const targetPizza = cart[targetPizzaIndex];
+
+    targetPizza.amount++;
     cart[targetPizzaIndex] = targetPizza;
     state.cart = cart;
   },
@@ -50,26 +100,57 @@ const mutations = {
     state.cart = cart;
   },
 
-  [DECREASE_PIZZA_COUNT](state, pizza) {
-    const cart = [...state.cart];
-    const targetPizzaIndex = cart.findIndex((it) => it.name === pizza.name);
-    const targetPizza = cart[targetPizzaIndex];
+  [SET_MISC_COUNT](state, { count, item }) {
+    let selectedMisc = [...state.selectedMisc];
+    const miscIndex = selectedMisc.findIndex((it) => it.miscId === item.id);
 
-    if (targetPizza.amount !== 0) {
-      targetPizza.amount--;
-      cart[targetPizzaIndex] = targetPizza;
-      state.cart = cart;
+    if (miscIndex !== -1) {
+      if (count !== 0) {
+        selectedMisc[miscIndex].amount = count;
+      } else {
+        selectedMisc = selectedMisc.filter((it) => it.miscId !== item.id);
+      }
+    } else {
+      selectedMisc.push({
+        miscId: item.id,
+        amount: count,
+      });
     }
+
+    state.selectedMisc = selectedMisc;
   },
 
-  [INCREASE_PIZZA_COUNT](state, pizza) {
-    const cart = [...state.cart];
-    const targetPizzaIndex = cart.findIndex((it) => it.name === pizza.name);
-    const targetPizza = cart[targetPizzaIndex];
+  [DECREASE_MISC_COUNT](state, misc) {
+    let selectedMisc = [...state.selectedMisc];
+    const miscIndex = selectedMisc.findIndex((it) => it.miscId === misc.id);
 
-    targetPizza.amount++;
-    cart[targetPizzaIndex] = targetPizza;
-    state.cart = cart;
+    selectedMisc[miscIndex].amount--;
+
+    if (selectedMisc[miscIndex].amount === 0) {
+      selectedMisc = selectedMisc.filter((it) => it.miscId !== misc.id);
+    }
+
+    state.selectedMisc = selectedMisc;
+  },
+
+  [INCREASE_MISC_COUNT](state, misc) {
+    const selectedMisc = [...state.selectedMisc];
+    const miscIndex = selectedMisc.findIndex((it) => it.miscId === misc.id);
+
+    if (miscIndex !== -1) {
+      selectedMisc[miscIndex].amount++;
+    } else {
+      selectedMisc.push({
+        miscId: misc.id,
+        amount: 1,
+      });
+    }
+
+    state.selectedMisc = selectedMisc;
+  },
+
+  [ADD_ORDER_MISC](state, misc) {
+    state.selectedMisc = misc;
   },
 
   [ADD_TO_CART](state, item) {
@@ -107,6 +188,10 @@ const mutations = {
       ...state.currentDeliveryAddress,
       apartment: event.target.value,
     };
+  },
+
+  [UPDATE_PHONE_VALUE](state, event) {
+    state.phone = event.target.value;
   },
 };
 
