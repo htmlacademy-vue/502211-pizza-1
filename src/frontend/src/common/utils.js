@@ -39,3 +39,8 @@ export const createResources = () => {
     [resources.ORDERS]: new CrudApiService(resources.ORDERS),
   };
 };
+
+export const setAuth = (store) => {
+  store.$api.auth.setAuthHeader();
+  store.dispatch("Auth/getMe");
+};

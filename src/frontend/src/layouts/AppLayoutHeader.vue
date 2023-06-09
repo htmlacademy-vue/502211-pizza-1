@@ -35,12 +35,7 @@
         </picture>
         <span>{{ user.name }}</span>
       </RouterLink>
-      <a
-        href="#"
-        class="header__logout"
-        @click.prevent
-        @click="logoutButtonClickHandler"
-      >
+      <a href="#" class="header__logout" @click.prevent @click="$logout">
         <span>Выйти</span>
       </a>
     </div>
@@ -53,19 +48,16 @@ import AppLayoutLogo from "@/layouts/AppLayoutLogo.vue";
 import { SIDEBAR_MENU } from "@/common/constants";
 
 import { mapState, mapGetters, mapMutations } from "vuex";
-import {
-  SELECT_USER,
-  CHANGE_ACTIVE_SIDEBAR_MENU,
-} from "@/store/mutation-types";
+import { CHANGE_ACTIVE_SIDEBAR_MENU } from "@/store/mutation-types";
 
-import { imageLink, imageWithExtensionLink } from "@/common/mixins";
+import { imageLink, imageWithExtensionLink, logout } from "@/common/mixins";
 
 export default {
   name: "AppLayoutHeader",
   // подключаем компоненты
   components: { AppLayoutLogo },
   // подключаем миксины
-  mixins: [imageLink, imageWithExtensionLink],
+  mixins: [imageLink, imageWithExtensionLink, logout],
   // дополнительные функции
   computed: {
     ...mapState("Auth", ["user"]),
@@ -74,20 +66,11 @@ export default {
   },
   // добавили методы
   methods: {
-    ...mapMutations("Auth", {
-      selectUser: SELECT_USER,
-    }),
     ...mapMutations("Orders", {
       changeActiveSidebarMenu: CHANGE_ACTIVE_SIDEBAR_MENU,
     }),
     profileIconClickHandler() {
       this.changeActiveSidebarMenu(SIDEBAR_MENU.USER_DATA.LABEL);
-    },
-    logoutButtonClickHandler() {
-      this.selectUser(null);
-      if (this.$router.currentRoute.name !== "Index") {
-        this.$router.push({ name: "Index" });
-      }
     },
   },
 };
