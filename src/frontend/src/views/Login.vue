@@ -7,14 +7,37 @@
       <h1 class="title title--small">Авторизуйтесь на сайте</h1>
     </div>
 
-    <AuthForm :login="login" />
+    <form action="test.html" method="post" @submit.prevent="login">
+      <label class="sign-form__input">
+        <FormInput
+          ref="email"
+          text="E-mail"
+          v-model="email"
+          type="email"
+          name="email"
+          placeholder="example@mail.ru"
+          :error-text="validations.email.error"
+        />
+      </label>
+
+      <label class="sign-form__input">
+        <FormInput
+          text="Пароль"
+          v-model="password"
+          type="password"
+          name="password"
+          placeholder="***********"
+          :error-text="validations.password.error"
+        />
+      </label>
+
+      <SubmitButton text="Авторизоваться" />
+    </form>
   </div>
 </template>
 
 <script>
-// импортируем компоненты
-import AuthForm from "@/modules/auth/components/AuthForm.vue";
-
+// Используем миксин валидатор для валидации полей формы
 import validator from "@/common/mixins/validator";
 
 export default {
@@ -23,6 +46,8 @@ export default {
   data: () => ({
     email: "",
     password: "",
+    // и добавляем объект validations. Поля cо списком правил валидации
+    // и параметром error для присвоения текста ошибки в миксине.
     validations: {
       email: {
         error: "",
@@ -34,7 +59,7 @@ export default {
       },
     },
   }),
-  // добавили вычисляемые свойства
+  // При изменении любого из полей очищаем ошибки валидации
   watch: {
     email() {
       this.$clearValidationErrors();
@@ -43,15 +68,17 @@ export default {
       this.$clearValidationErrors();
     },
   },
-  // подключаем компоненты
-  components: {
-    AuthForm,
+  // при входе на страницу ставим фокус на email-инпуте
+  mounted() {
+    this.$refs.email.$refs.email.focus();
   },
   // подключаем миксины
   mixins: [validator],
   // добавили методы
   methods: {
     async login() {
+      // Если есть невалидное поле - не отправлять запрос на сервер.
+      // Также в миксине мы присваиваем текст ошибки
       if (
         !this.$validateFields(
           { email: this.email, password: this.password },
@@ -60,11 +87,13 @@ export default {
       ) {
         return;
       }
+      // Если поля валидны - отправляем запрос на сервер.
       await this.$store.dispatch("Login", {
         email: this.email,
         password: this.password,
       });
 
+      // После успешной авторизации отправляем пользователя на главную страницу.
       await this.$router.push("/");
     },
   },

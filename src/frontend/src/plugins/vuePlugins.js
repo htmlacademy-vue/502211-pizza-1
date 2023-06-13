@@ -2,7 +2,7 @@ import Vue from "vue";
 import JWTService from "@/services/jwt.service";
 import Notifier from "@/plugins/notifier";
 import store from "@/store";
-import { createResources } from "@/common/helpers";
+import { createResources } from "@/common/utils";
 
 const plugins = {
   install(Vue) {
