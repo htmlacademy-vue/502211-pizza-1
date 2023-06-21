@@ -8,7 +8,7 @@
       >
         <p class="additional-list__description">
           <img
-            :src="$imageLink(item.image)"
+            :src="item.image"
             width="39"
             height="60"
             :alt="item.name"
@@ -19,7 +19,7 @@
         <div class="additional-list__wrapper">
           <ItemCounter
             class="additional-list__counter"
-            :count="$itemsCounter(selectedMisc, item.name)"
+            :count="itemsCounter(selectedMisc, item.id, 'miscId')"
             :item="item"
             :minCount="0"
             :maxCount="Math.pow(10, 1000)"
@@ -48,20 +48,17 @@ import {
   INCREASE_MISC_COUNT,
 } from "@/store/mutation-types";
 
-import { itemsCounter, imageLink } from "@/common/mixins";
-
 export default {
   name: "CartAdditional",
   // подключаем компоненты
   components: {
     ItemCounter,
   },
-  // подключаем миксины
-  mixins: [imageLink, itemsCounter],
   // дополнительные функции
   computed: {
     ...mapState("Builder", ["misc"]),
     ...mapState("Orders", ["selectedMisc"]),
+    ...mapGetters(["itemsCounter"]),
   },
   // добавили методы
   methods: {

@@ -35,6 +35,22 @@ const getters = {
   getEntityById: (state) => (entity, id) => {
     return state[entity].find((it) => it.id === id);
   },
+
+  formInputClassSize: () => (additionalSizeClass, size) => {
+    return size.length !== 0 ? `${additionalSizeClass}--${size}` : "";
+  },
+
+  imageWithExtensionLink: () => (link, extension) => {
+    const linkWithoutExtension = link.split(".")[0];
+
+    return `${linkWithoutExtension}${extension}`;
+  },
+
+  itemsCounter: () => (items, id, propertyName) => {
+    const itemIndex = items.findIndex((it) => it[propertyName] === id);
+
+    return itemIndex === -1 ? 0 : items[itemIndex].quantity;
+  },
 };
 
 const actions = {

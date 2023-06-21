@@ -4,15 +4,15 @@
       <source
         type="image/webp"
         :srcset="
-          $imageWithExtensionLink(user.avatar, '@2x.webp') +
+          imageWithExtensionLink(user.avatar, '@2x.webp') +
           ' 1x,' +
-          $imageWithExtensionLink(user.avatar, '@4x.webp') +
+          imageWithExtensionLink(user.avatar, '@4x.webp') +
           ' 2x'
         "
       />
       <img
-        :src="$imageWithExtensionLink(user.avatar, '@2x.jpg')"
-        :srcset="$imageWithExtensionLink(user.avatar, '@4x.jpg')"
+        :src="imageWithExtensionLink(user.avatar, '@2x.jpg')"
+        :srcset="imageWithExtensionLink(user.avatar, '@4x.jpg')"
         :alt="user.name"
         width="72"
         height="72"
@@ -28,17 +28,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
-import { imageWithExtensionLink } from "@/common/mixins";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "OrderUserInfo",
-  // подключаем миксины
-  mixins: [imageWithExtensionLink],
   // дополнительные функции
   computed: {
     ...mapState("Auth", ["user"]),
+    ...mapGetters(["imageWithExtensionLink"]),
   },
 };
 </script>

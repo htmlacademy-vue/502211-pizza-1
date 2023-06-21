@@ -35,7 +35,7 @@
           <FormInput
             v-for="(formData, dataId) in ADDRESS_FORM_INPUT_DATA"
             :key="dataId"
-            :class="`address-form__input ${$formInputClassSize(
+            :class="`address-form__input ${formInputClassSize(
               additionalSizeClass,
               formData.size
             )}`"
@@ -75,8 +75,6 @@ import SubmitButton from "@/common/components/SubmitButton.vue";
 import { ADDRESS_FORM_INPUT_DATA } from "@/common/constants";
 
 import { mapState } from "vuex";
-
-import { formInputClassSize } from "@/common/mixins";
 
 export default {
   name: "OrderAddress",
@@ -139,11 +137,10 @@ export default {
     FormInput,
     SubmitButton,
   },
-  // подключаем миксины
-  mixins: [formInputClassSize],
   // дополнительные функции
   computed: {
     ...mapState("Orders", ["editingAddress"]),
+    ...mapGetters(["formInputClassSize"]),
 
     address() {
       return `${this.street}, д. ${this.house}, кв. ${this.apartment}`;

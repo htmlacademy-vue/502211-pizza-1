@@ -17,7 +17,9 @@
 
         <ItemCounter
           class="counter--orange ingredients__counter"
-          :count="$itemsCounter(selectedIngredients, ingredient.name)"
+          :count="
+            itemsCounter(selectedIngredients, ingredient.id, 'ingredientId')
+          "
           :item="ingredient"
           :minCount="0"
           :maxCount="MAX_INGREDIENTS_NUMBER"
@@ -48,8 +50,6 @@ import {
   SET_INGREDIENT_COUNT,
 } from "@/store/mutation-types";
 
-import { itemsCounter } from "@/common/mixins";
-
 export default {
   name: "IngredientsFillingSelector",
   // подключаем данные
@@ -72,6 +72,7 @@ export default {
   computed: {
     ...mapState("Builder", ["pizzas"]),
     ...mapState("Builder", ["selectedIngredients"]),
+    ...mapGetters(["itemsCounter"]),
 
     ingredients() {
       return this.pizzas.ingredients;

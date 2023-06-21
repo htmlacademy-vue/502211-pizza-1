@@ -30,7 +30,7 @@
         <FormInput
           v-for="(formData, dataId) in CART_ADDRESS_FORM_INPUT_DATA"
           :key="dataId"
-          :class="`cart-form__input ${$formInputClassSize(
+          :class="`cart-form__input ${formInputClassSize(
             additionalSizeClass,
             formData.size
           )}`"
@@ -63,8 +63,6 @@ import {
   UPDATE_APARTMENT_VALUE,
 } from "@/store/mutation-types";
 
-import { formInputClassSize } from "@/common/mixins";
-
 export default {
   name: "CartForm",
   // подключаем данные
@@ -79,13 +77,12 @@ export default {
   components: {
     FormInput,
   },
-  // подключаем миксины
-  mixins: [formInputClassSize],
   // дополнительные функции
   computed: {
     ...mapState("Cart", ["deliveryType", "currentDeliveryAddress"]),
     ...mapState("Orders", ["userAddresses"]),
     ...mapGetters("Auth", ["isAuthorizes"]),
+    ...mapGetters(["formInputClassSize"]),
 
     selectOptions() {
       return this.isAuthorizes
