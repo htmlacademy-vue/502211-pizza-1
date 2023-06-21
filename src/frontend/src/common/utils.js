@@ -29,7 +29,6 @@ export const getRandomNumber = (max, min) =>
 export const createResources = () => {
   return {
     [resources.AUTH]: new AuthApiService(),
-    [resources.USERS]: new ReadOnlyApiService(resources.USERS),
     [resources.DOUGH]: new ReadOnlyApiService(resources.DOUGH),
     [resources.SIZE]: new ReadOnlyApiService(resources.SIZE),
     [resources.SAUCE]: new ReadOnlyApiService(resources.SAUCE),

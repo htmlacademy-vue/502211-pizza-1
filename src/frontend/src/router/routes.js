@@ -33,7 +33,7 @@ export default [
     },
   },
   {
-    path: "/sign-in",
+    path: "/login",
     name: "Login",
     component: () => import("@/views/Login.vue"),
     meta: {
