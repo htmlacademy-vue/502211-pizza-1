@@ -76,6 +76,15 @@ export const OPTIONS = {
   NEW_ADDRESS: "Новый адрес",
 };
 
+export const UNAUTHORIZED_OPTIONS = [
+  {
+    name: "Получу сам",
+  },
+  {
+    name: "Новый адрес",
+  },
+];
+
 export const DELIVERY_DEFAULT_TYPE = OPTIONS.GET_BY_MYSELF;
 
 export const addressProperySeparator = "-";

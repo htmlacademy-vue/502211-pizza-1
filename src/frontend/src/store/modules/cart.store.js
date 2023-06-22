@@ -40,7 +40,7 @@ const getters = {
           curr.ingredients,
           rootGetters.getEntityById
         ) *
-          curr.amount
+          curr.quantity
       );
     }, 0);
     const miscPrice = rootGetters.getCountSum(
@@ -58,7 +58,7 @@ const mutations = {
     const targetPizzaIndex = cart.findIndex((it) => it.name === item.name);
     const targetPizza = cart[targetPizzaIndex];
 
-    targetPizza.amount = count;
+    targetPizza.quantity = count;
 
     if (count !== 0) {
       cart[targetPizzaIndex] = targetPizza;
@@ -73,8 +73,8 @@ const mutations = {
     const targetPizzaIndex = cart.findIndex((it) => it.name === pizza.name);
     const targetPizza = cart[targetPizzaIndex];
 
-    if (targetPizza.amount !== 0) {
-      targetPizza.amount--;
+    if (targetPizza.quantity !== 0) {
+      targetPizza.quantity--;
       cart[targetPizzaIndex] = targetPizza;
       state.cart = cart;
     } else {
@@ -87,7 +87,7 @@ const mutations = {
     const targetPizzaIndex = cart.findIndex((it) => it.name === pizza.name);
     const targetPizza = cart[targetPizzaIndex];
 
-    targetPizza.amount++;
+    targetPizza.quantity++;
     cart[targetPizzaIndex] = targetPizza;
     state.cart = cart;
   },
@@ -106,14 +106,14 @@ const mutations = {
 
     if (miscIndex !== -1) {
       if (count !== 0) {
-        selectedMisc[miscIndex].amount = count;
+        selectedMisc[miscIndex].quantity = count;
       } else {
         selectedMisc = selectedMisc.filter((it) => it.miscId !== item.id);
       }
     } else {
       selectedMisc.push({
         miscId: item.id,
-        amount: count,
+        quantity: count,
       });
     }
 
@@ -124,9 +124,9 @@ const mutations = {
     let selectedMisc = [...state.selectedMisc];
     const miscIndex = selectedMisc.findIndex((it) => it.miscId === misc.id);
 
-    selectedMisc[miscIndex].amount--;
+    selectedMisc[miscIndex].quantity--;
 
-    if (selectedMisc[miscIndex].amount === 0) {
+    if (selectedMisc[miscIndex].quantity === 0) {
       selectedMisc = selectedMisc.filter((it) => it.miscId !== misc.id);
     }
 
@@ -138,11 +138,11 @@ const mutations = {
     const miscIndex = selectedMisc.findIndex((it) => it.miscId === misc.id);
 
     if (miscIndex !== -1) {
-      selectedMisc[miscIndex].amount++;
+      selectedMisc[miscIndex].quantity++;
     } else {
       selectedMisc.push({
         miscId: misc.id,
-        amount: 1,
+        quantity: 1,
       });
     }
 
@@ -179,14 +179,14 @@ const mutations = {
   [UPDATE_HOUSE_VALUE](state, event) {
     state.currentDeliveryAddress = {
       ...state.currentDeliveryAddress,
-      house: event.target.value,
+      building: event.target.value,
     };
   },
 
   [UPDATE_APARTMENT_VALUE](state, event) {
     state.currentDeliveryAddress = {
       ...state.currentDeliveryAddress,
-      apartment: event.target.value,
+      flat: event.target.value,
     };
   },
 

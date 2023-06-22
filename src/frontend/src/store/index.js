@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import { doughSpellingMap } from "@/common/constants";
+
 import VuexPlugins from "@/plugins/vuexPlugins";
 
 // импорт модулей
@@ -47,6 +49,42 @@ const getters = {
     }, 0);
 
     return multiplier * (doughPrice + saucePrice + ingredientsPrice);
+  },
+
+  getCountSum: () => (items, itemList) => {
+    return (
+      items?.reduce(
+        (prev, curr) =>
+          prev +
+          curr.quantity * itemList.find((it) => it.id === curr.miscId).price,
+        0
+      ) || 0
+    );
+  },
+
+  getDoughText: () => (sizeId, doughId, getter) => {
+    const size = getter("sizes", sizeId).name;
+    const dough = getter("dough", doughId).name;
+
+    return `${size}, на ${doughSpellingMap[dough]} тесте`;
+  },
+
+  getIngredientsText: () => (ingredients, ingredientsList) => {
+    return `Начинка: ${ingredients
+      .map((ingredient) => {
+        return ingredientsList
+          .find((ingredientListItem) => {
+            return ingredientListItem.id === ingredient.ingredientId;
+          })
+          .name.toLowerCase();
+      })
+      .join(", ")}`;
+  },
+
+  getSauceText: () => (sauceId, getter) => {
+    const sauce = getter("sauces", sauceId).name;
+
+    return `Соус: ${sauce.toLowerCase()}`;
   },
 
   formInputClassSize: () => (additionalSizeClass, size) => {

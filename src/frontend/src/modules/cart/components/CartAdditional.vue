@@ -7,12 +7,7 @@
         :key="item.id"
       >
         <p class="additional-list__description">
-          <img
-            :src="item.image"
-            width="39"
-            height="60"
-            :alt="item.name"
-          />
+          <img :src="item.image" width="39" height="60" :alt="item.name" />
           <span>{{ item.name }}</span>
         </p>
 
@@ -41,7 +36,7 @@
 // импортируем компоненты
 import ItemCounter from "@/common/components/ItemCounter.vue";
 
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import {
   SET_MISC_COUNT,
   DECREASE_MISC_COUNT,
@@ -56,13 +51,13 @@ export default {
   },
   // дополнительные функции
   computed: {
-    ...mapState("Builder", ["misc"]),
-    ...mapState("Orders", ["selectedMisc"]),
+    ...mapState(["misc"]),
+    ...mapState("Cart", ["selectedMisc"]),
     ...mapGetters(["itemsCounter"]),
   },
   // добавили методы
   methods: {
-    ...mapMutations("Orders", {
+    ...mapMutations("Cart", {
       setMiscCount: SET_MISC_COUNT,
       decreaseMiscCount: DECREASE_MISC_COUNT,
       increaseMiscCount: INCREASE_MISC_COUNT,

@@ -1,5 +1,5 @@
 <template>
-  <form action="test.html" method="post" class="layout-form">
+  <form class="layout-form" @submit.prevent="formSubmitHandler">
     <main class="content cart">
       <div class="container">
         <div class="cart__title">
@@ -33,8 +33,9 @@ import CartAdditional from "@/modules/cart/components/CartAdditional.vue";
 import CartForm from "@/modules/cart/components/CartForm.vue";
 import CartPopup from "@/modules/cart/components/CartPopup.vue";
 import CartFooter from "@/modules/cart/components/CartFooter.vue";
+import { OPTIONS } from "@/common/constants";
 
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 import { SET_DELIVERY_TYPE } from "@/store/mutation-types";
 
 export default {
@@ -49,14 +50,46 @@ export default {
   },
   // дополнительные функции
   computed: {
-    ...mapState("Cart", ["cart"]),
+    ...mapState("Cart", [
+      "cart",
+      "selectedMisc",
+      "phone",
+      "currentDeliveryAddress",
+      "deliveryType",
+    ]),
     ...mapState("Orders", ["showModal"]),
+    ...mapState("Auth", ["user"]),
+    ...mapGetters("Auth", ["isAuthorizes"]),
   },
   // добавили методы
   methods: {
     ...mapMutations("Cart", {
       setDeliveryType: SET_DELIVERY_TYPE,
     }),
+    ...mapActions("Orders", ["postOrder", "deleteOrder"]),
+
+    async formSubmitHandler() {
+      const orderAddress =
+        this.deliveryType !== OPTIONS.GET_BY_MYSELF
+          ? {
+              street: this.currentDeliveryAddress.street,
+              building: this.currentDeliveryAddress.building,
+              flat: this.currentDeliveryAddress.flat,
+              comment: this.currentDeliveryAddress.comment || "",
+              id: this.currentDeliveryAddress.id || null,
+            }
+          : null;
+
+      const order = {
+        userId: this.isAuthenticated ? this.user.id : null,
+        phone: this.phone,
+        address: orderAddress,
+        pizzas: this.cart,
+        misc: this.selectedMisc,
+      };
+
+      await this.postOrder(order);
+    },
   },
 };
 </script>
