@@ -30,10 +30,10 @@ export default {
   name: "CartPopup",
   // дополнительные функции
   computed: {
-    ...mapGetters("Auth", ["isAuthorizes"]),
+    ...mapState("Auth", ["isAuthenticated"]),
 
     popupLink() {
-      return this.isAuthorizes ? "/orders" : "/";
+      return this.isAuthenticated ? "/orders" : "/";
     },
   },
   // добавили методы

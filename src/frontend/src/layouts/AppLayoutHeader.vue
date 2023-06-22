@@ -8,8 +8,8 @@
     <div class="header__cart">
       <RouterLink to="/cart">{{ totalOrderPrice }} ₽</RouterLink>
     </div>
-    <div v-if="!isAuthorizes" class="header__user">
-      <RouterLink to="/sign-in" class="header__login">
+    <div v-if="!isAuthenticated" class="header__user">
+      <RouterLink to="/login" class="header__login">
         <span>Войти</span>
       </RouterLink>
     </div>
@@ -60,8 +60,7 @@ export default {
   mixins: [logout],
   // дополнительные функции
   computed: {
-    ...mapState("Auth", ["user"]),
-    ...mapGetters("Auth", ["isAuthorizes"]),
+    ...mapState("Auth", ["user", "isAuthenticated"]),
     ...mapGetters("Cart", ["totalOrderPrice"]),
     ...mapGetters(["imageWithExtensionLink"]),
   },

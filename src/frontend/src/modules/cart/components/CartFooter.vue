@@ -36,8 +36,7 @@ export default {
       "currentDeliveryAddress",
       "deliveryType",
     ]),
-    ...mapState("Auth", ["user"]),
-    ...mapGetters("Auth", ["isAuthorizes"]),
+    ...mapState("Auth", ["isAuthenticated", "user"]),
     ...mapGetters("Cart", ["totalOrderPrice"]),
 
     buttonDisabled() {

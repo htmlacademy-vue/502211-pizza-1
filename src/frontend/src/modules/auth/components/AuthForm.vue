@@ -1,84 +1,114 @@
 <template>
-  <form action="test.html" method="post">
+  <form @submit.prevent="login">
     <FormInput
-      @submit.prevent="login"
+      :ref="formData.inputName"
       v-for="(formData, dataId) in AUTH_FORM_INPUT_DATA"
       :key="dataId"
       class="sign-form__input"
       :text="formData.text"
-      :inputModel="formData.inputModel"
       :inputType="formData.inputType"
       :inputName="formData.inputName"
       :placeholder="formData.placeholder"
       :required="formData.required"
       :value="$data[formData.inputName]"
       :inputChangeHandler="inputChangeHandler"
-      :error-text="formData.validations.error"
     />
 
-    <SubmitButton
-      text="Авторизоваться"
-      :buttonClickHandler="submitButtonClickHandler"
+    <AuthErrorBlock
+      v-if="errors.email.length !== 0 || errors.pass.length !== 0"
+      :errors="Object.values(errors).filter((it) => it !== '')"
     />
+
+    <button type="submit" class="button">Авторизоваться</button>
   </form>
 </template>
 
 <script>
-// подключение тестовых данных
-import user from "@/static/user.json";
+import { mapActions } from "vuex";
 
 // импортируем компоненты
 import FormInput from "@/common/components/FormInput.vue";
-import SubmitButton from "@/common/components/SubmitButton.vue";
-import { AUTH_FORM_INPUT_DATA } from "@/common/constants";
+import { AUTH_FORM_INPUT_DATA, AUTH_ERRORS } from "@/common/constants";
+import { isValidEmail } from "@/common/utils";
 
-import { mapState, mapMutations } from "vuex";
-import { SELECT_USER } from "@/store/mutation-types";
-
-import validator from "@/common/mixins/validator";
+import AuthErrorBlock from "@/modules/auth/components/AuthErrorBlock.vue";
 
 export default {
   name: "AuthForm",
-  // получение свойств из родительского компонента
-  props: {
-    login: {
-      type: Function,
-      default: () => {},
-    },
-  },
   // подключаем данные
   data() {
     return {
       email: "",
       pass: "",
+      errors: {
+        email: [],
+        pass: [],
+      },
       AUTH_FORM_INPUT_DATA,
     };
   },
   // подключаем компоненты
   components: {
     FormInput,
-    SubmitButton,
-  },
-  // подключаем миксины
-  mixins: [validator],
-  // дополнительные функции
-  computed: {
-    ...mapState("Auth", ["user"]),
+    AuthErrorBlock,
   },
   // добавили методы
   methods: {
-    ...mapMutations("Auth", {
-      selectUser: SELECT_USER,
+    ...mapActions("Auth", {
+      loginUser: "login",
     }),
     inputChangeHandler(event, field) {
       this[field] = event.target.value;
+      this.errors[field] = [];
+      this.validateInput(field);
     },
-    submitButtonClickHandler() {
-      if (this.email === user.email && this.password === user.pass) {
-        this.selectUser(user);
-        this.$router.push({ name: "Index" });
+    validateInput(field) {
+      switch (field) {
+        case "email":
+          if (this.email.length === 0) {
+            this.errors.email.push(AUTH_ERRORS.EMAIL_REQUIRED);
+          } else {
+            this.errors.email = this.errors.email.filter(
+              (it) => it !== AUTH_ERRORS.EMAIL_REQUIRED
+            );
+          }
+
+          if (!isValidEmail(this.email)) {
+            this.errors.email.push(AUTH_ERRORS.EMAIL_VALID);
+          } else {
+            this.errors.email = this.errors.email.filter(
+              (it) => it !== AUTH_ERRORS.EMAIL_VALID
+            );
+          }
+
+          break;
+
+        case "pass":
+          if (this.pass.length === 0) {
+            this.errors.pass.push(AUTH_ERRORS.PASSWORD_REQUIRED);
+          } else {
+            this.errors.pass = this.errors.pass.filter(
+              (it) => it !== AUTH_ERRORS.PASSWORD_REQUIRED
+            );
+          }
+
+          break;
       }
     },
+    async login() {
+      if (this.errors.email.length !== 0 || this.errors.pass.length !== 0) {
+        return;
+      }
+
+      await this.loginUser({
+        email: this.email,
+        password: this.pass,
+      });
+      this.$router.push("/");
+    },
+  },
+  mounted() {
+    this.$refs.email[0].$refs.input.focus();
   },
 };
 </script>

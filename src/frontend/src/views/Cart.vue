@@ -35,8 +35,11 @@ import CartPopup from "@/modules/cart/components/CartPopup.vue";
 import CartFooter from "@/modules/cart/components/CartFooter.vue";
 import { OPTIONS } from "@/common/constants";
 
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
-import { SET_DELIVERY_TYPE } from "@/store/mutation-types";
+import { mapState, mapMutations, mapActions } from "vuex";
+import {
+  SET_DELIVERY_TYPE,
+  CHANGE_SHOW_MODAL_STATUS,
+} from "@/store/mutation-types";
 
 export default {
   name: "Cart",
@@ -58,17 +61,21 @@ export default {
       "deliveryType",
     ]),
     ...mapState("Orders", ["showModal"]),
-    ...mapState("Auth", ["user"]),
-    ...mapGetters("Auth", ["isAuthorizes"]),
+    ...mapState("Auth", ["isAuthenticated", "user"]),
   },
   // добавили методы
   methods: {
     ...mapMutations("Cart", {
       setDeliveryType: SET_DELIVERY_TYPE,
     }),
+    ...mapMutations("Orders", {
+      changeShowModalStatus: CHANGE_SHOW_MODAL_STATUS,
+    }),
     ...mapActions("Orders", ["postOrder", "deleteOrder"]),
 
     async formSubmitHandler() {
+      this.changeShowModalStatus(true);
+
       const orderAddress =
         this.deliveryType !== OPTIONS.GET_BY_MYSELF
           ? {

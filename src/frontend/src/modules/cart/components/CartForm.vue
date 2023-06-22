@@ -92,11 +92,11 @@ export default {
   computed: {
     ...mapState("Cart", ["deliveryType", "currentDeliveryAddress", "phone"]),
     ...mapState("Orders", ["userAddresses"]),
-    ...mapGetters("Auth", ["isAuthorizes"]),
+    ...mapState("Auth", ["isAuthenticated"]),
     ...mapGetters(["formInputClassSize"]),
 
     selectOptions() {
-      return this.isAuthorizes
+      return this.isAuthenticated
         ? [
             ...UNAUTHORIZED_OPTIONS,
             ...this.userAddresses.map((it) => ({

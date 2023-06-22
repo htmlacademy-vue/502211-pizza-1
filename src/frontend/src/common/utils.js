@@ -22,3 +22,9 @@ export const setAuth = (store) => {
   store.$api.auth.setAuthHeader();
   store.dispatch("Auth/getMe");
 };
+
+export const isValidEmail = (email) => {
+  const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+  return email.match(pattern)?.length > 0;
+};

@@ -1,16 +1,11 @@
 // подключение типов мутаций
-import { SELECT_USER } from "@/store/mutation-types";
+import { CHANGE_AUTH_STATUS, SELECT_USER } from "@/store/mutation-types";
 
 // состояние по умолчанию
 export const defaultState = () => ({
   user: null,
+  isAuthenticated: false,
 });
-
-const getters = {
-  isAuthorizes(state) {
-    return state.user !== null;
-  },
-};
 
 const actions = {
   // во время успешного логина:
@@ -37,6 +32,7 @@ const actions = {
     // Обновляем заголовок авторизации в axios (по факту очищаем его)
     this.$api.auth.setAuthHeader();
     // Очищаем объект пользователя
+    commit(CHANGE_AUTH_STATUS, false);
     commit(SELECT_USER, null);
   },
 
@@ -45,6 +41,7 @@ const actions = {
     try {
       const data = await this.$api.auth.getMe();
 
+      commit(CHANGE_AUTH_STATUS, true);
       commit(SELECT_USER, data);
       dispatch("Orders/fetchUserAddresses", null, { root: true });
       dispatch("Orders/fetchUserOrders", null, { root: true });
@@ -57,15 +54,17 @@ const actions = {
 };
 
 const mutations = {
-  [SELECT_USER](state, user) {
-    state.user = user;
+  [CHANGE_AUTH_STATUS](state, status) {
+    state.isAuthenticated = status;
+  },
+  [SELECT_USER](state, userData) {
+    state.user = userData;
   },
 };
 
 export default {
   namespaced: true,
   state: defaultState(),
-  getters,
   actions,
   mutations,
 };

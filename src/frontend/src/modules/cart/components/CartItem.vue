@@ -12,16 +12,18 @@
       <div class="product__text">
         <h2>{{ itemData.name }}</h2>
         <ul>
-          <li>{{ doughText }}</li>
-          <li>{{ sauceText }}</li>
-          <li>{{ ingredientsText }}</li>
+          <li>
+            {{ getDoughText(itemData.sizeId, itemData.doughId, getEntityById) }}
+          </li>
+          <li>{{ getSauceText(itemData.sauceId, getEntityById) }}</li>
+          <li>{{ getIngredientsText(itemData.ingredients, ingredients) }}</li>
         </ul>
       </div>
     </div>
 
     <ItemCounter
       class="cart-list__counter"
-      :count="itemData.amount"
+      :count="itemData.quantity"
       :item="itemData"
       :minCount="0"
       :maxCount="Math.pow(10, 1000)"
@@ -31,7 +33,18 @@
     />
 
     <div class="cart-list__price">
-      <b>{{ itemData.price * itemData.amount }} ₽</b>
+      <b
+        >{{
+          totalPizzaPrice(
+            itemData.sizeId,
+            itemData.doughId,
+            itemData.sauceId,
+            itemData.ingredients,
+            getEntityById
+          ) * itemData.quantity
+        }}
+        ₽</b
+      >
     </div>
 
     <div class="cart-list__button">
@@ -50,14 +63,8 @@
 
 <script>
 import ItemCounter from "@/common/components/ItemCounter.vue";
-import { doughSpellingMap } from "@/common/constants";
-import {
-  getDoughText,
-  getSauceText,
-  getIngredientsText,
-} from "@/common/utils.js";
 
-import { mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import {
   UPDATE_DOUGH_VALUE,
   UPDATE_SAUCE_VALUE,
@@ -79,34 +86,20 @@ export default {
       required: true,
     },
   },
-  // подключаем данные
-  data() {
-    return {
-      doughSpellingMap,
-      getDoughText,
-      getSauceText,
-      getIngredientsText,
-    };
-  },
   // подключаем компоненты
   components: {
     ItemCounter,
   },
   // дополнительные функции
   computed: {
-    doughText() {
-      return getDoughText(
-        this.itemData.size,
-        this.itemData.dough,
-        doughSpellingMap
-      );
-    },
-    sauceText() {
-      return getSauceText(this.itemData.sauce);
-    },
-    ingredientsText() {
-      return getIngredientsText(this.itemData.ingredients);
-    },
+    ...mapState(["ingredients"]),
+    ...mapGetters([
+      "getEntityById",
+      "totalPizzaPrice",
+      "getDoughText",
+      "getSauceText",
+      "getIngredientsText",
+    ]),
   },
   // добавили методы
   methods: {
@@ -125,20 +118,22 @@ export default {
     }),
 
     pizzaChangeButtonClickHandler() {
-      const { dough, name, sauce, size, ingredients } = this.itemData;
+      const { doughId, name, sauceId, sizeId, ingredients } = this.itemData;
 
       this.setEditingPizza(this.itemData);
-      this.updateDoughValue(dough);
-      this.updateSauceValue(sauce);
-      this.updateSizeValue(size);
+      this.updateDoughValue(doughId);
+      this.updateSauceValue(sauceId);
+      this.updateSizeValue(sizeId);
       this.updateName(name);
 
-      Object.values(ingredients).forEach((it) => {
+      ingredients.forEach((it) =>
         this.setCount({
-          count: it.amount,
-          item: it,
-        });
-      });
+          count: it.quantity,
+          item: this.ingredients.find(
+            (ingredient) => ingredient.id === it.ingredientId
+          ),
+        })
+      );
     },
   },
 };
