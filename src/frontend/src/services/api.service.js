@@ -10,14 +10,9 @@ export class ReadOnlyApiService {
   }
 
   // запрос на получение списка сущностей
-  async query(config = {}) {
-    const { data } = await axios.get(this.#resource, config);
-    return data;
-  }
+  async query() {
+    const { data } = await axios.get(this.#resource);
 
-  // запрос на получение одной сущности по id
-  async get(id, config = {}) {
-    const { data } = await axios.get(`${this.#resource}/${id}`, config);
     return data;
   }
 }

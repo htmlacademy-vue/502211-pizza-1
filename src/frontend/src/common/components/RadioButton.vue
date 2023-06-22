@@ -8,9 +8,9 @@
         type="radio"
         class="visually-hidden"
         :name="itemName"
-        :value="`${itemMap[item.name]}`"
+        :value="item.id"
         :class="inputClass"
-        :checked="item.name === value"
+        :checked="item.id === value"
         @change="radioInputChangeHandler"
       />
       <b v-if="checkIsDoughComponent">
@@ -26,7 +26,6 @@
 <script>
 // импортируем компоненты
 import SelectorItem from "@/common/components/SelectorItem.vue";
-import { ITEMS_INPUT_DATA } from "@/common/constants";
 
 export default {
   name: "RadioButton",
@@ -53,7 +52,7 @@ export default {
       required: false,
     },
     value: {
-      type: String,
+      type: Number,
       required: true,
     },
     inputChangeHandler: {
@@ -64,31 +63,29 @@ export default {
   // дополнительные функции
   computed: {
     containerClass() {
-      return this.itemName === ITEMS_INPUT_DATA.SAUCE.ITEM_NAME
+      return this.itemName === "sauce"
         ? "ingredients__sauce"
         : `sheet__content ${this.itemName}`;
     },
     inputClass() {
-      return this.itemName === ITEMS_INPUT_DATA.SAUCE.ITEM_NAME
-        ? ""
-        : "visually-hidden";
+      return this.itemName === "sauce" ? "" : "visually-hidden";
     },
     checkIsDoughComponent() {
-      return this.itemName === ITEMS_INPUT_DATA.DOUGH.ITEM_NAME;
+      return this.itemName === "dough";
     },
   },
   // добавили методы
   methods: {
     labelClass(name) {
-      return this.itemName === ITEMS_INPUT_DATA.SAUCE.ITEM_NAME
+      return this.itemName === "sauce"
         ? "ingredients__input radio"
         : `${this.itemName}__input ${this.itemName}__input--${this.itemMap[name]}`;
     },
     radioInputChangeHandler(event) {
-      const updatedValue = Object.entries(this.itemMap).find(
-        ([, b]) => b === event.target.value
-      )[0];
-      this.inputChangeHandler(updatedValue);
+      const itemId = this.items.find(
+        (it) => it.id === parseInt(event.target.value)
+      ).id;
+      this.inputChangeHandler(itemId);
     },
   },
 };

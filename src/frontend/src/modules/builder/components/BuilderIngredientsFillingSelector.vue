@@ -7,7 +7,10 @@
         :key="ingredient.id"
         class="ingredients__item"
       >
-        <AppDrag :transferData="ingredient">
+        <AppDrag
+          :isDraggable="isDraggable(ingredient)"
+          :transferData="ingredient"
+        >
           <SelectorItem
             class="filling"
             :class="`filling--${ingredientsMap[ingredient.name]}`"
@@ -43,7 +46,7 @@ import {
   MAX_INGREDIENTS_NUMBER,
 } from "@/common/constants";
 
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import {
   DECREASE_INGREDIENT_COUNT,
   INCREASE_INGREDIENT_COUNT,
@@ -66,8 +69,6 @@ export default {
     SelectorItem,
     ItemCounter,
   },
-  // подключаем миксины
-  mixins: [itemsCounter],
   // дополнительные функции
   computed: {
     ...mapState("Builder", ["pizzas"]),
@@ -85,6 +86,16 @@ export default {
       decreaseIngredientCount: DECREASE_INGREDIENT_COUNT,
       increaseIngredientCount: INCREASE_INGREDIENT_COUNT,
     }),
+
+    isDraggable(ingredient) {
+      return (
+        this.itemsCounter(
+          this.selectedIngredients,
+          ingredient.id,
+          "ingredientId"
+        ) !== MAX_INGREDIENTS_NUMBER
+      );
+    },
   },
 };
 </script>

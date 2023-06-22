@@ -78,10 +78,6 @@ export const OPTIONS = {
 
 export const DELIVERY_DEFAULT_TYPE = OPTIONS.GET_BY_MYSELF;
 
-export const MAX_PIZZA_ID_NUMBER = 100000;
-
-export const MIN_PIZZA_ID_NUMBER = 0;
-
 export const addressProperySeparator = "-";
 
 export const ADDRESS_FORM_INPUT_DATA = [
@@ -105,7 +101,7 @@ export const ADDRESS_FORM_INPUT_DATA = [
     size: "small",
     text: "Дом*",
     inputType: "text",
-    inputName: "house",
+    inputName: "building",
     placeholder: "Введите номер дома",
     required: true,
   },
@@ -113,7 +109,7 @@ export const ADDRESS_FORM_INPUT_DATA = [
     size: "small",
     text: "Квартира",
     inputType: "text",
-    inputName: "apartment",
+    inputName: "flat",
     placeholder: "Введите № квартиры",
     required: false,
   },
@@ -169,7 +165,7 @@ export const CART_ADDRESS_FORM_INPUT_DATA = [
     size: "small",
     text: "Дом*",
     inputType: "text",
-    inputName: "house",
+    inputName: "building",
     placeholder: "Введите номер дома",
     required: true,
   },
@@ -177,7 +173,7 @@ export const CART_ADDRESS_FORM_INPUT_DATA = [
     size: "small",
     text: "Квартира",
     inputType: "text",
-    inputName: "apartment",
+    inputName: "flat",
     placeholder: "Введите № квартиры",
     required: false,
   },
