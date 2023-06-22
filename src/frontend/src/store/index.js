@@ -87,6 +87,13 @@ const getters = {
     return `Соус: ${sauce.toLowerCase()}`;
   },
 
+  getFullAddress: () => (address) => {
+    const { street, building, flat } = address;
+    const flatStr = flat.length !== 0 ? `, кв. ${address.flat}` : "";
+
+    return `${street}, д. ${building}` + flatStr;
+  },
+
   formInputClassSize: () => (additionalSizeClass, size) => {
     return size.length !== 0 ? `${additionalSizeClass}--${size}` : "";
   },
