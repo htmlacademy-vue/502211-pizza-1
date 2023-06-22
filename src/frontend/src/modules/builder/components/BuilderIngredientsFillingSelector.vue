@@ -71,13 +71,9 @@ export default {
   },
   // дополнительные функции
   computed: {
-    ...mapState("Builder", ["pizzas"]),
+    ...mapState(["ingredients"]),
     ...mapState("Builder", ["selectedIngredients"]),
     ...mapGetters(["itemsCounter"]),
-
-    ingredients() {
-      return this.pizzas.ingredients;
-    },
   },
   // добавили методы
   methods: {

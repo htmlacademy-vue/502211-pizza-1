@@ -16,31 +16,13 @@ import {
 
 // состояние по умолчанию
 export const defaultState = () => ({
-  selectedIngredients: {},
+  selectedIngredients: [],
   currentDough: -1,
   currentSauce: -1,
   currentSize: -1,
   pizzaName: "",
   editingPizza: null,
 });
-
-const getters = {
-  totalPizzaPrice(sizeId, doughId, sauceId, ingredients, getter) {
-    const multiplier = getter("sizes", sizeId)?.multiplier;
-
-    const doughPrice = getter("dough", doughId)?.price;
-
-    const saucePrice = getter("sauces", sauceId)?.price;
-
-    const ingredientsPrice = ingredients.reduce((prev, curr) => {
-      const ingredientPrice = getter("ingredients", curr.ingredientId)?.price;
-
-      return prev + ingredientPrice * curr.amount;
-    }, 0);
-
-    return multiplier * (doughPrice + saucePrice + ingredientsPrice);
-  },
-};
 
 const mutations = {
   [UPDATE_DOUGH_VALUE](state, value) {
@@ -56,7 +38,7 @@ const mutations = {
   },
 
   [SET_INGREDIENT_COUNT](state, { count, item }) {
-    const selectedIngredients = { ...state.selectedIngredients };
+    const selectedIngredients = [...state.selectedIngredients];
     const ingredientIndex = selectedIngredients.findIndex(
       (it) => it.ingredientId === item.id
     );
@@ -69,7 +51,7 @@ const mutations = {
       let ingredient = selectedIngredients[ingredientIndex];
 
       if (count !== 0) {
-        ingredient.amount = count;
+        ingredient.quantity = count;
       } else {
         ingredient = selectedIngredients.filter(
           (it) => it.ingredientId !== item.id
@@ -80,23 +62,23 @@ const mutations = {
     } else {
       selectedIngredients.push({
         ingredientId: item.id,
-        amount: count,
+        quantity: count,
       });
     }
 
-    state.selectedIngredients = { ...selectedIngredients };
+    state.selectedIngredients = selectedIngredients;
   },
 
   [DECREASE_INGREDIENT_COUNT](state, ingredient) {
-    const selectedIngredients = { ...state.selectedIngredients };
+    const selectedIngredients = [...state.selectedIngredients];
     const ingredientIndex = selectedIngredients.findIndex(
       (it) => it.ingredientId === ingredient.id
     );
-    const count = --selectedIngredients[ingredientIndex].amount;
+    const count = --selectedIngredients[ingredientIndex].quantity;
     let currentIngredient = selectedIngredients[ingredientIndex];
 
     if (count !== 0) {
-      currentIngredient.amount = count;
+      currentIngredient.quantity = count;
       selectedIngredients[ingredientIndex] = currentIngredient;
     } else {
       state.selectedIngredients = selectedIngredients.filter(
@@ -104,25 +86,25 @@ const mutations = {
       );
     }
 
-    state.selectedIngredients = { ...selectedIngredients };
+    state.selectedIngredients = selectedIngredients;
   },
 
   [INCREASE_INGREDIENT_COUNT](state, ingredient) {
-    const selectedIngredients = { ...state.selectedIngredients };
+    const selectedIngredients = [...state.selectedIngredients];
     const ingredientIndex = selectedIngredients.findIndex(
       (it) => it.ingredientId === ingredient.id
     );
 
     if (ingredientIndex !== -1) {
-      selectedIngredients[ingredientIndex].amount++;
+      selectedIngredients[ingredientIndex].quantity++;
     } else {
       selectedIngredients.push({
         ingredientId: ingredient.id,
-        amount: 1,
+        quantity: 1,
       });
     }
 
-    state.selectedIngredients = { ...selectedIngredients };
+    state.selectedIngredients = selectedIngredients;
   },
 
   [SET_EDITING_PIZZA](state, status) {
@@ -130,7 +112,7 @@ const mutations = {
   },
 
   [ITEM_DROP](state, item) {
-    const ingredients = { ...state.selectedIngredients };
+    const ingredients = [...state.selectedIngredients];
     const ingredientIndex = ingredients.findIndex(
       (it) => it.ingredientId === item.id
     );
@@ -138,13 +120,13 @@ const mutations = {
     if (ingredientIndex !== -1) {
       const ingredient = ingredients[ingredientIndex];
 
-      if (ingredient.amount !== MAX_INGREDIENTS_NUMBER) {
-        ingredient.amount++;
+      if (ingredient.quantity !== MAX_INGREDIENTS_NUMBER) {
+        ingredient.quantity++;
       }
     } else {
       ingredients.push({
         ingredientId: item.id,
-        amount: 1,
+        quantity: 1,
       });
     }
 
@@ -152,7 +134,7 @@ const mutations = {
   },
 
   [CLEAR_FABRIC](state) {
-    state.selectedIngredients = {};
+    state.selectedIngredients = [];
     state.currentDough = 1;
     state.currentSauce = 1;
     state.currentSize = 1;
@@ -167,6 +149,5 @@ const mutations = {
 export default {
   namespaced: true,
   state: defaultState(),
-  getters,
   mutations,
 };

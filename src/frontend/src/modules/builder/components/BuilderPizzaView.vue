@@ -5,19 +5,19 @@
         <div class="pizza__wrapper">
           <template v-for="item in selectedIngredients">
             <div
-              v-if="item.amount > 0"
+              v-if="item.quantity > 0"
               :key="`filling-one_${item.id}`"
               class="pizza__filling"
               :class="getPizzaFillingClass(item)"
             />
             <div
-              v-if="item.amount > 1"
+              v-if="item.quantity > 1"
               :key="`filling-two_${item.id}`"
               class="pizza__filling"
               :class="getPizzaFillingClassSecond(item)"
             />
             <div
-              v-if="item.amount > 2"
+              v-if="item.quantity > 2"
               :key="`filling-three_${item.id}`"
               class="pizza__filling"
               :class="getPizzaFillingClassThird(item)"
@@ -34,7 +34,7 @@
 import AppDrop from "@/common/components/AppDrop.vue";
 import { ingredientsMap, sauceMap, doughClassMap } from "@/common/constants";
 
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "PizzaView",
@@ -55,27 +55,37 @@ export default {
       "currentDough",
       "currentSauce",
     ]),
+    ...mapGetters(["getEntityById"]),
 
     getCustomPizzaClass() {
-      return `pizza--foundation--${doughClassMap[this.currentDough]}-${
-        sauceMap[this.currentSauce]
-      }`;
+      const doughName = this.getEntityById("dough", this.currentDough)?.name;
+      const sauceName = this.getEntityById("sauces", this.currentSauce)?.name;
+
+      return `pizza--foundation--${doughClassMap[doughName]}-${sauceMap[sauceName]}`;
     },
   },
   // добавили методы
   methods: {
     getPizzaFillingClass(item) {
-      return `pizza__filling--${ingredientsMap[item.name]}`;
+      const ingredientName = this.getEntityById(
+        "ingredients",
+        item.ingredientId
+      ).name;
+      return `pizza__filling--${ingredientsMap[ingredientName]}`;
     },
     getPizzaFillingClassSecond(item) {
-      return `pizza__filling--${
-        ingredientsMap[item.name]
-      } pizza__filling--second`;
+      const ingredientName = this.getEntityById(
+        "ingredients",
+        item.ingredientId
+      ).name;
+      return `pizza__filling--${ingredientsMap[ingredientName]} pizza__filling--second`;
     },
     getPizzaFillingClassThird(item) {
-      return `pizza__filling--${
-        ingredientsMap[item.name]
-      } pizza__filling--third`;
+      const ingredientName = this.getEntityById(
+        "ingredients",
+        item.ingredientId
+      ).name;
+      return `pizza__filling--${ingredientsMap[ingredientName]} pizza__filling--third`;
     },
   },
 };

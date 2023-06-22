@@ -36,6 +36,19 @@ const getters = {
     return state[entity].find((it) => it.id === id);
   },
 
+  totalPizzaPrice: () => (sizeId, doughId, sauceId, ingredients, getter) => {
+    const multiplier = getter("sizes", sizeId)?.multiplier;
+    const doughPrice = getter("dough", doughId)?.price;
+    const saucePrice = getter("sauces", sauceId)?.price;
+    const ingredientsPrice = ingredients.reduce((prev, curr) => {
+      const ingredientPrice = getter("ingredients", curr.ingredientId)?.price;
+
+      return prev + ingredientPrice * curr.quantity;
+    }, 0);
+
+    return multiplier * (doughPrice + saucePrice + ingredientsPrice);
+  },
+
   formInputClassSize: () => (additionalSizeClass, size) => {
     return size.length !== 0 ? `${additionalSizeClass}--${size}` : "";
   },
