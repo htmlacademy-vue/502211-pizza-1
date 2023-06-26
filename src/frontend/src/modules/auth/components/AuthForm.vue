@@ -15,7 +15,11 @@
     />
 
     <AuthErrorBlock
-      v-if="errors.email.length !== 0 || errors.pass.length !== 0"
+      v-if="
+        errors.email.length !== 0 ||
+        errors.pass.length !== 0 ||
+        errors.data.length !== 0
+      "
       :errors="Object.values(errors).filter((it) => it !== '')"
     />
 
@@ -43,6 +47,7 @@ export default {
       errors: {
         email: [],
         pass: [],
+        data: [],
       },
       AUTH_FORM_INPUT_DATA,
     };
@@ -100,10 +105,17 @@ export default {
         return;
       }
 
+      this.errors.data.push(AUTH_ERRORS.FALSE_DATA);
+
       await this.loginUser({
         email: this.email,
         password: this.pass,
       });
+
+      this.errors.data = this.errors.data.filter(
+        (it) => it !== AUTH_ERRORS.FALSE_DATA
+      );
+
       this.$router.push("/");
     },
   },

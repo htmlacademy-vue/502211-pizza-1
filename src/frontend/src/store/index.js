@@ -11,18 +11,16 @@ import modules from "@/store/modules";
 // импорт типов мутаций
 import { RESET_STORE, FETCH_ENTITY } from "@/store/mutation-types";
 
-import { defaultState as resetAuthState } from "@/store/modules/auth.store";
 import { defaultState as resetBuilderState } from "@/store/modules/builder.store";
 import { defaultState as resetCartState } from "@/store/modules/cart.store";
 import { defaultState as resetOrdersState } from "@/store/modules/orders.store";
 
 Vue.use(Vuex);
 
-const resetState = () => ({
-  Auth: resetAuthState(),
+const resetState = (prevState) => ({
   Builder: resetBuilderState(),
   Cart: resetCartState(),
-  Orders: resetOrdersState(),
+  Orders: resetOrdersState(prevState),
 });
 
 const state = {
@@ -35,7 +33,7 @@ const state = {
 
 const getters = {
   getEntityById: (state) => (entity, id) => {
-    return state[entity].find((it) => it.id === id);
+    return state[entity]?.find((it) => it.id === id);
   },
 
   totalPizzaPrice: () => (sizeId, doughId, sauceId, ingredients, getter) => {

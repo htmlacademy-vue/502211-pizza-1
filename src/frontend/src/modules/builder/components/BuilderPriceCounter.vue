@@ -2,15 +2,7 @@
   <div class="content__result">
     <p>
       Итого:
-      {{
-        totalPizzaPrice(
-          currentSize,
-          currentDough,
-          currentSauce,
-          selectedIngredients,
-          getEntityById
-        )
-      }}
+      {{ getTotalPizzaPrice }}
       ₽
     </p>
 
@@ -49,14 +41,17 @@ export default {
     ...mapState("Cart", ["cart"]),
     ...mapGetters(["getEntityById", "totalPizzaPrice"]),
 
-    isButtonDisabled() {
-      const totalPizzaPrice = this.totalPizzaPrice(
+    getTotalPizzaPrice() {
+      return this.totalPizzaPrice(
         this.currentSize,
         this.currentDough,
         this.currentSauce,
         this.selectedIngredients,
         this.getEntityById
       );
+    },
+    isButtonDisabled() {
+      const totalPizzaPrice = this.getTotalPizzaPrice;
 
       return (
         totalPizzaPrice === 0 ||

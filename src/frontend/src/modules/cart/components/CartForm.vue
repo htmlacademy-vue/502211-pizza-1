@@ -48,6 +48,7 @@
           :required="formData.required"
           :value="cartFormInputValue(formData)"
           :disabled="!isDefaultOption"
+          :readonly="deliveryType !== OPTIONS.NEW_ADDRESS ? true : false"
           :inputChangeHandler="deliveryFormInputHandler(formData.inputName)"
         />
       </div>

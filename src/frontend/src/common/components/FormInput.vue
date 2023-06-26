@@ -11,6 +11,7 @@
         :required="required"
         :value="value"
         :disabled="disabled"
+        :readonly="readonly"
         @change="(event) => inputChangeHandler(event, inputName)"
       />
       <slot />
@@ -56,6 +57,10 @@ export default {
       default: "",
     },
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+    readonly: {
       type: Boolean,
       default: false,
     },
