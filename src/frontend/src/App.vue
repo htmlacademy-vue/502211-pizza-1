@@ -9,6 +9,9 @@
 <script>
 // импортируем компоненты
 import AppLayout from "@/layouts/AppLayout.vue";
+import { setAuth } from "@/common/utils";
+
+import { mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -16,8 +19,19 @@ export default {
   components: {
     AppLayout,
   },
+  methods: {
+    ...mapActions(["init"]),
+  },
   created() {
-    this.$store.dispatch("Builder/init");
+    window.onerror = function (msg, url, line, col, error) {
+      console.error(error);
+    };
+
+    if (this.$jwt.getToken()) {
+      setAuth(this.$store);
+    }
+
+    this.init();
   },
 };
 </script>

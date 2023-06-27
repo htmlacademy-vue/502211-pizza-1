@@ -11,28 +11,41 @@
     <p>Мы начали готовить Ваш заказ, скоро привезём его вам ;)</p>
 
     <div class="popup__button">
-      <a href="#" class="button" @click="popupCloseHandler">
+      <RouterLink
+        :to="popupLink"
+        class="button"
+        @click.native="popupCloseHandler"
+      >
         Отлично, я жду!
-      </a>
+      </RouterLink>
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import { RESET_STORE } from "@/store/mutation-types";
 
 export default {
   name: "CartPopup",
+  // дополнительные функции
+  computed: {
+    ...mapState("Auth", ["isAuthenticated"]),
+
+    popupLink() {
+      return this.isAuthenticated ? "/orders" : "/";
+    },
+  },
   // добавили методы
   methods: {
     ...mapMutations({
       resetStore: RESET_STORE,
     }),
+    ...mapActions(["init"]),
 
     popupCloseHandler() {
       this.resetStore();
-      this.$store.dispatch("Builder/init");
+      this.init();
     },
   },
 };

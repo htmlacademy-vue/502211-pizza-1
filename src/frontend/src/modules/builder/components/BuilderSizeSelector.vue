@@ -37,12 +37,8 @@ export default {
   },
   // дополнительные функции
   computed: {
-    ...mapState("Builder", ["pizzas"]),
+    ...mapState(["sizes"]),
     ...mapState("Builder", ["currentSize"]),
-
-    sizes() {
-      return this.pizzas.sizes;
-    },
   },
   // добавили методы
   methods: {

@@ -11,9 +11,9 @@
       <div class="product__text">
         <h2>{{ name }}</h2>
         <ul>
-          <li>{{ doughText }}</li>
-          <li>{{ sauceText }}</li>
-          <li>{{ ingredientsText }}</li>
+          <li>{{ getDoughText(sizeId, doughId, getEntityById) }}</li>
+          <li>{{ getSauceText(sauceId, getEntityById) }}</li>
+          <li>{{ getIngredientsText(ingredients, ingredientsList) }}</li>
         </ul>
       </div>
     </div>
@@ -23,59 +23,60 @@
 </template>
 
 <script>
-import { doughSpellingMap } from "@/common/constants";
-import {
-  getDoughText,
-  getSauceText,
-  getIngredientsText,
-} from "@/common/utils.js";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "OrderItem",
   // получение свойств из родительского компонента
   props: {
-    dough: {
-      type: String,
+    doughId: {
+      type: Number,
       required: true,
     },
-    size: {
-      type: String,
+    sizeId: {
+      type: Number,
       required: true,
     },
-    sauce: {
-      type: String,
+    sauceId: {
+      type: Number,
       required: true,
     },
     ingredients: {
-      type: Object,
+      type: Array,
       required: true,
     },
     name: {
       type: String,
       required: true,
     },
-    price: {
-      type: Number,
-      required: true,
-    },
-    amount: {
+    quantity: {
       type: Number,
       required: true,
     },
   },
   // дополнительные функции
   computed: {
-    doughText() {
-      return getDoughText(this.size, this.dough, doughSpellingMap);
-    },
-    sauceText() {
-      return getSauceText(this.sauce);
-    },
-    ingredientsText() {
-      return getIngredientsText(this.ingredients);
-    },
+    ...mapState({
+      ingredientsList: "ingredients",
+    }),
+    ...mapGetters([
+      "getEntityById",
+      "totalPizzaPrice",
+      "getDoughText",
+      "getSauceText",
+      "getIngredientsText",
+    ]),
+
     priceText() {
-      return this.amount > 1 ? `${this.amount}х${this.price}` : this.price;
+      const price = this.totalPizzaPrice(
+        this.sizeId,
+        this.doughId,
+        this.sauceId,
+        this.ingredients,
+        this.getEntityById
+      );
+
+      return this.quantity > 1 ? `${this.quantity}х${price}` : price;
     },
   },
 };

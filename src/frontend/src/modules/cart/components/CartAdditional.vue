@@ -7,19 +7,14 @@
         :key="item.id"
       >
         <p class="additional-list__description">
-          <img
-            :src="$imageLink(item.image)"
-            width="39"
-            height="60"
-            :alt="item.name"
-          />
+          <img :src="item.image" width="39" height="60" :alt="item.name" />
           <span>{{ item.name }}</span>
         </p>
 
         <div class="additional-list__wrapper">
           <ItemCounter
             class="additional-list__counter"
-            :count="$itemsCounter(selectedMisc, item.name)"
+            :count="itemsCounter(selectedMisc, item.id, 'miscId')"
             :item="item"
             :minCount="0"
             :maxCount="Math.pow(10, 1000)"
@@ -41,14 +36,12 @@
 // импортируем компоненты
 import ItemCounter from "@/common/components/ItemCounter.vue";
 
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import {
   SET_MISC_COUNT,
   DECREASE_MISC_COUNT,
   INCREASE_MISC_COUNT,
 } from "@/store/mutation-types";
-
-import { itemsCounter, imageLink } from "@/common/mixins";
 
 export default {
   name: "CartAdditional",
@@ -56,16 +49,15 @@ export default {
   components: {
     ItemCounter,
   },
-  // подключаем миксины
-  mixins: [imageLink, itemsCounter],
   // дополнительные функции
   computed: {
-    ...mapState("Builder", ["misc"]),
-    ...mapState("Orders", ["selectedMisc"]),
+    ...mapState(["misc"]),
+    ...mapState("Cart", ["selectedMisc"]),
+    ...mapGetters(["itemsCounter"]),
   },
   // добавили методы
   methods: {
-    ...mapMutations("Orders", {
+    ...mapMutations("Cart", {
       setMiscCount: SET_MISC_COUNT,
       decreaseMiscCount: DECREASE_MISC_COUNT,
       increaseMiscCount: INCREASE_MISC_COUNT,

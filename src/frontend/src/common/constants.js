@@ -76,11 +76,16 @@ export const OPTIONS = {
   NEW_ADDRESS: "Новый адрес",
 };
 
+export const UNAUTHORIZED_OPTIONS = [
+  {
+    name: "Получу сам",
+  },
+  {
+    name: "Новый адрес",
+  },
+];
+
 export const DELIVERY_DEFAULT_TYPE = OPTIONS.GET_BY_MYSELF;
-
-export const MAX_PIZZA_ID_NUMBER = 100000;
-
-export const MIN_PIZZA_ID_NUMBER = 0;
 
 export const addressProperySeparator = "-";
 
@@ -105,7 +110,7 @@ export const ADDRESS_FORM_INPUT_DATA = [
     size: "small",
     text: "Дом*",
     inputType: "text",
-    inputName: "house",
+    inputName: "building",
     placeholder: "Введите номер дома",
     required: true,
   },
@@ -113,7 +118,7 @@ export const ADDRESS_FORM_INPUT_DATA = [
     size: "small",
     text: "Квартира",
     inputType: "text",
-    inputName: "apartment",
+    inputName: "flat",
     placeholder: "Введите № квартиры",
     required: false,
   },
@@ -131,27 +136,17 @@ export const AUTH_FORM_INPUT_DATA = [
   {
     size: "",
     text: "E-mail",
-    inputModel: "email",
     inputType: "email",
     inputName: "email",
     placeholder: "example@mail.ru",
-    validations: {
-      error: "",
-      rules: ["required", "email"],
-    },
     required: true,
   },
   {
     size: "",
     text: "Пароль",
-    inputModel: "password",
     inputType: "password",
     inputName: "pass",
     placeholder: "***********",
-    validations: {
-      error: "",
-      rules: ["required"],
-    },
     required: true,
   },
 ];
@@ -169,7 +164,7 @@ export const CART_ADDRESS_FORM_INPUT_DATA = [
     size: "small",
     text: "Дом*",
     inputType: "text",
-    inputName: "house",
+    inputName: "building",
     placeholder: "Введите номер дома",
     required: true,
   },
@@ -177,13 +172,15 @@ export const CART_ADDRESS_FORM_INPUT_DATA = [
     size: "small",
     text: "Квартира",
     inputType: "text",
-    inputName: "apartment",
+    inputName: "flat",
     placeholder: "Введите № квартиры",
     required: false,
   },
 ];
 
-/* eslint-disable */
-export const emailRegex =
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-/* eslint-enable */
+export const AUTH_ERRORS = {
+  EMAIL_REQUIRED: "Поле email обязательно для заполнения",
+  EMAIL_VALID: "Поле email должно быть валидно",
+  PASSWORD_REQUIRED: "Поле пароля обязательно для заполнения",
+  FALSE_DATA: "Неверный email или пароль",
+};

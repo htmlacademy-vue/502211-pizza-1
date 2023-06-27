@@ -8,8 +8,8 @@
     <div class="header__cart">
       <RouterLink to="/cart">{{ totalOrderPrice }} ₽</RouterLink>
     </div>
-    <div v-if="!isAuthorizes" class="header__user">
-      <RouterLink to="/sign-in" class="header__login">
+    <div v-if="!isAuthenticated" class="header__user">
+      <RouterLink to="/login" class="header__login">
         <span>Войти</span>
       </RouterLink>
     </div>
@@ -19,15 +19,15 @@
           <source
             type="image/webp"
             :srcset="
-              $imageWithExtensionLink(user.avatar, '.webp') +
+              imageWithExtensionLink(user.avatar, '.webp') +
               ' 1x,' +
-              $imageWithExtensionLink(user.avatar, '@2x.webp') +
+              imageWithExtensionLink(user.avatar, '@2x.webp') +
               ' 2x'
             "
           />
           <img
-            :src="$imageLink(user.avatar)"
-            :srcset="$imageWithExtensionLink(user.avatar, '@2x.jpg')"
+            :src="user.avatar"
+            :srcset="imageWithExtensionLink(user.avatar, '@2x.jpg')"
             :alt="user.name"
             width="32"
             height="32"
@@ -35,12 +35,7 @@
         </picture>
         <span>{{ user.name }}</span>
       </RouterLink>
-      <a
-        href="#"
-        class="header__logout"
-        @click.prevent
-        @click="logoutButtonClickHandler"
-      >
+      <a href="#" class="header__logout" @click.prevent @click="$logout">
         <span>Выйти</span>
       </a>
     </div>
@@ -53,41 +48,29 @@ import AppLayoutLogo from "@/layouts/AppLayoutLogo.vue";
 import { SIDEBAR_MENU } from "@/common/constants";
 
 import { mapState, mapGetters, mapMutations } from "vuex";
-import {
-  SELECT_USER,
-  CHANGE_ACTIVE_SIDEBAR_MENU,
-} from "@/store/mutation-types";
+import { CHANGE_ACTIVE_SIDEBAR_MENU } from "@/store/mutation-types";
 
-import { imageLink, imageWithExtensionLink } from "@/common/mixins";
+import { logout } from "@/common/mixins";
 
 export default {
   name: "AppLayoutHeader",
   // подключаем компоненты
   components: { AppLayoutLogo },
   // подключаем миксины
-  mixins: [imageLink, imageWithExtensionLink],
+  mixins: [logout],
   // дополнительные функции
   computed: {
-    ...mapState("Auth", ["user"]),
-    ...mapGetters("Auth", ["isAuthorizes"]),
+    ...mapState("Auth", ["user", "isAuthenticated"]),
     ...mapGetters("Cart", ["totalOrderPrice"]),
+    ...mapGetters(["imageWithExtensionLink"]),
   },
   // добавили методы
   methods: {
-    ...mapMutations("Auth", {
-      selectUser: SELECT_USER,
-    }),
     ...mapMutations("Orders", {
       changeActiveSidebarMenu: CHANGE_ACTIVE_SIDEBAR_MENU,
     }),
     profileIconClickHandler() {
       this.changeActiveSidebarMenu(SIDEBAR_MENU.USER_DATA.LABEL);
-    },
-    logoutButtonClickHandler() {
-      this.selectUser(null);
-      if (this.$router.currentRoute.name !== "Index") {
-        this.$router.push({ name: "Index" });
-      }
     },
   },
 };

@@ -1,6 +1,8 @@
 import Vue from "vue";
 import App from "@/App.vue";
 
+import "@/plugins/vuePlugins";
+
 import store from "@/store";
 
 import router from "@/router";

@@ -23,9 +23,8 @@
 
       <form
         v-else
-        action="test.html"
-        method="post"
         class="address-form address-form--opened sheet"
+        @submit.prevent="formSubmitHandler"
       >
         <div v-if="!isAddNewAddress" class="address-form__header">
           <b>{{ name }}</b>
@@ -35,7 +34,7 @@
           <FormInput
             v-for="(formData, dataId) in ADDRESS_FORM_INPUT_DATA"
             :key="dataId"
-            :class="`address-form__input ${$formInputClassSize(
+            :class="`address-form__input ${formInputClassSize(
               additionalSizeClass,
               formData.size
             )}`"
@@ -58,10 +57,7 @@
           >
             Удалить
           </button>
-          <SubmitButton
-            text="Сохранить"
-            :buttonClickHandler="submitButtonClickHandler"
-          />
+          <button type="submit" class="button">Сохранить</button>
         </div>
       </form>
     </div>
@@ -71,12 +67,9 @@
 <script>
 // импортируем компоненты
 import FormInput from "@/common/components/FormInput.vue";
-import SubmitButton from "@/common/components/SubmitButton.vue";
 import { ADDRESS_FORM_INPUT_DATA } from "@/common/constants";
 
-import { mapState } from "vuex";
-
-import { formInputClassSize } from "@/common/mixins";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "OrderAddress",
@@ -90,11 +83,11 @@ export default {
       type: String,
       default: "",
     },
-    house: {
+    building: {
       type: String,
       default: "",
     },
-    apartment: {
+    flat: {
       type: String,
       default: "",
     },
@@ -114,7 +107,7 @@ export default {
       type: Function,
       default: () => {},
     },
-    submitButtonClickHandler: {
+    formSubmitHandler: {
       type: Function,
       default: () => {},
     },
@@ -137,16 +130,20 @@ export default {
   // подключаем компоненты
   components: {
     FormInput,
-    SubmitButton,
   },
-  // подключаем миксины
-  mixins: [formInputClassSize],
   // дополнительные функции
   computed: {
     ...mapState("Orders", ["editingAddress"]),
+    ...mapGetters(["formInputClassSize", "getFullAddress"]),
 
     address() {
-      return `${this.street}, д. ${this.house}, кв. ${this.apartment}`;
+      const data = {
+        street: this.street,
+        building: this.building,
+        flat: this.flat,
+      };
+
+      return this.getFullAddress(data);
     },
   },
 };

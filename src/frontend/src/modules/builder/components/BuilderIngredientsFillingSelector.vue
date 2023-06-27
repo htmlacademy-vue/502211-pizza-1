@@ -7,7 +7,10 @@
         :key="ingredient.id"
         class="ingredients__item"
       >
-        <AppDrag :transferData="ingredient">
+        <AppDrag
+          :isDraggable="isDraggable(ingredient)"
+          :transferData="ingredient"
+        >
           <SelectorItem
             class="filling"
             :class="`filling--${ingredientsMap[ingredient.name]}`"
@@ -17,7 +20,9 @@
 
         <ItemCounter
           class="counter--orange ingredients__counter"
-          :count="$itemsCounter(selectedIngredients, ingredient.name)"
+          :count="
+            itemsCounter(selectedIngredients, ingredient.id, 'ingredientId')
+          "
           :item="ingredient"
           :minCount="0"
           :maxCount="MAX_INGREDIENTS_NUMBER"
@@ -41,14 +46,12 @@ import {
   MAX_INGREDIENTS_NUMBER,
 } from "@/common/constants";
 
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import {
   DECREASE_INGREDIENT_COUNT,
   INCREASE_INGREDIENT_COUNT,
   SET_INGREDIENT_COUNT,
 } from "@/store/mutation-types";
-
-import { itemsCounter } from "@/common/mixins";
 
 export default {
   name: "IngredientsFillingSelector",
@@ -66,16 +69,11 @@ export default {
     SelectorItem,
     ItemCounter,
   },
-  // подключаем миксины
-  mixins: [itemsCounter],
   // дополнительные функции
   computed: {
-    ...mapState("Builder", ["pizzas"]),
+    ...mapState(["ingredients"]),
     ...mapState("Builder", ["selectedIngredients"]),
-
-    ingredients() {
-      return this.pizzas.ingredients;
-    },
+    ...mapGetters(["itemsCounter"]),
   },
   // добавили методы
   methods: {
@@ -84,6 +82,16 @@ export default {
       decreaseIngredientCount: DECREASE_INGREDIENT_COUNT,
       increaseIngredientCount: INCREASE_INGREDIENT_COUNT,
     }),
+
+    isDraggable(ingredient) {
+      return (
+        this.itemsCounter(
+          this.selectedIngredients,
+          ingredient.id,
+          "ingredientId"
+        ) !== MAX_INGREDIENTS_NUMBER
+      );
+    },
   },
 };
 </script>

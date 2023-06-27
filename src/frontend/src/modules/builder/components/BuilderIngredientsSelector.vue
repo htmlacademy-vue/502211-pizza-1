@@ -44,12 +44,8 @@ export default {
   },
   // дополнительные функции
   computed: {
-    ...mapState("Builder", ["pizzas"]),
+    ...mapState(["sauces"]),
     ...mapState("Builder", ["currentSauce"]),
-
-    sauces() {
-      return this.pizzas.sauces;
-    },
   },
   // добавили методы
   methods: {

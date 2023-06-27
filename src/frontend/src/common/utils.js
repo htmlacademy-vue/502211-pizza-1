@@ -1,20 +1,30 @@
-export const getCountSum = (items) => {
-  return items.reduce((prev, curr) => prev + curr.price * curr.amount, 0);
+import resources from "@/common/enums/resources";
+import {
+  AuthApiService,
+  CrudApiService,
+  ReadOnlyApiService,
+} from "@/services/api.service";
+
+export const createResources = () => {
+  return {
+    [resources.AUTH]: new AuthApiService(),
+    [resources.DOUGH]: new ReadOnlyApiService(resources.DOUGH),
+    [resources.SIZE]: new ReadOnlyApiService(resources.SIZE),
+    [resources.SAUCE]: new ReadOnlyApiService(resources.SAUCE),
+    [resources.INGREDIENTS]: new ReadOnlyApiService(resources.INGREDIENTS),
+    [resources.MISC]: new ReadOnlyApiService(resources.MISC),
+    [resources.ADDRESSES]: new CrudApiService(resources.ADDRESSES),
+    [resources.ORDERS]: new CrudApiService(resources.ORDERS),
+  };
 };
 
-export const getDoughText = (size, dough, doughSpellingMap) => {
-  return `${size}, на ${doughSpellingMap[dough]} тесте`;
+export const setAuth = (store) => {
+  store.$api.auth.setAuthHeader();
+  store.dispatch("Auth/getMe");
 };
 
-export const getSauceText = (sauce) => {
-  return `Соус: ${sauce.toLowerCase()}`;
-};
+export const isValidEmail = (email) => {
+  const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
-export const getIngredientsText = (ingredients) => {
-  return `Начинка: ${Object.keys(ingredients)
-    .map((it) => it.toLowerCase())
-    .join(", ")}`;
+  return email.match(pattern)?.length > 0;
 };
-
-export const getRandomNumber = (max, min) =>
-  Math.floor(Math.random() * (max - min + 1)) + min;

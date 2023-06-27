@@ -7,8 +7,13 @@
         text="Получение заказа:"
       >
         <select name="test" class="select" @change="selectChangeHandler">
-          <option v-for="(option, id) in selectOptions" :key="id" :value="id">
-            {{ option }}
+          <option
+            v-for="(option, id) in selectOptions"
+            :key="id"
+            :value="option.id"
+            :selected="deliveryType === option.name"
+          >
+            {{ option.name }}
           </option>
         </select>
       </FormInput>
@@ -19,6 +24,9 @@
         inputType="text"
         inputName="tel"
         placeholder="+7 999-999-99-99"
+        :required="true"
+        :value="phone"
+        :inputChangeHandler="updatePhoneValue"
       />
 
       <div
@@ -30,7 +38,7 @@
         <FormInput
           v-for="(formData, dataId) in CART_ADDRESS_FORM_INPUT_DATA"
           :key="dataId"
-          :class="`cart-form__input ${$formInputClassSize(
+          :class="`cart-form__input ${formInputClassSize(
             additionalSizeClass,
             formData.size
           )}`"
@@ -38,11 +46,10 @@
           :inputType="formData.inputType"
           :inputName="formData.inputName"
           :required="formData.required"
-          :value="
-            isDefaultOption ? '' : currentDeliveryAddress[formData.inputName]
-          "
+          :value="cartFormInputValue(formData)"
           :disabled="!isDefaultOption"
-          :inputChangeHandler="updateStreetValue"
+          :readonly="deliveryType !== OPTIONS.NEW_ADDRESS ? true : false"
+          :inputChangeHandler="deliveryFormInputHandler(formData.inputName)"
         />
       </div>
     </div>
@@ -52,7 +59,11 @@
 <script>
 // импортируем компоненты
 import FormInput from "@/common/components/FormInput.vue";
-import { OPTIONS, CART_ADDRESS_FORM_INPUT_DATA } from "@/common/constants";
+import {
+  UNAUTHORIZED_OPTIONS,
+  OPTIONS,
+  CART_ADDRESS_FORM_INPUT_DATA,
+} from "@/common/constants";
 
 import { mapState, mapGetters, mapMutations } from "vuex";
 import {
@@ -61,9 +72,8 @@ import {
   UPDATE_STREET_VALUE,
   UPDATE_HOUSE_VALUE,
   UPDATE_APARTMENT_VALUE,
+  UPDATE_PHONE_VALUE,
 } from "@/store/mutation-types";
-
-import { formInputClassSize } from "@/common/mixins";
 
 export default {
   name: "CartForm",
@@ -79,24 +89,26 @@ export default {
   components: {
     FormInput,
   },
-  // подключаем миксины
-  mixins: [formInputClassSize],
   // дополнительные функции
   computed: {
-    ...mapState("Cart", ["deliveryType", "currentDeliveryAddress"]),
+    ...mapState("Cart", ["deliveryType", "currentDeliveryAddress", "phone"]),
     ...mapState("Orders", ["userAddresses"]),
-    ...mapGetters("Auth", ["isAuthorizes"]),
+    ...mapState("Auth", ["isAuthenticated"]),
+    ...mapGetters(["formInputClassSize"]),
 
     selectOptions() {
-      return this.isAuthorizes
-        ? [...OPTIONS, ...this.userAddresses.map((it) => it.name)]
-        : OPTIONS;
-    },
-    isDefaultOption() {
-      return Object.values(OPTIONS).includes(this.deliveryType);
+      return this.isAuthenticated
+        ? [
+            ...UNAUTHORIZED_OPTIONS,
+            ...this.userAddresses.map((it) => ({
+              name: it.name,
+              id: it.id,
+            })),
+          ]
+        : UNAUTHORIZED_OPTIONS;
     },
     cartFormAddressLabel() {
-      if (!Object.values(OPTIONS).includes(this.deliveryType)) {
+      if (!this.isDefaultOption(this.deliveryType)) {
         return "Адрес:";
       }
 
@@ -111,24 +123,50 @@ export default {
       updateStreetValue: UPDATE_STREET_VALUE,
       updateHouseValue: UPDATE_HOUSE_VALUE,
       updateApartmentValue: UPDATE_APARTMENT_VALUE,
+      updatePhoneValue: UPDATE_PHONE_VALUE,
     }),
 
+    isDefaultOption(option) {
+      return Object.values(OPTIONS).includes(option);
+    },
     selectChangeHandler(event) {
-      const selectedOption = event.target.selectedOptions[0].text;
+      const selectedOption = {
+        name: event.target.selectedOptions[0].text,
+        id: parseInt(event.target.selectedOptions[0].value),
+      };
 
-      this.setDeliveryType(selectedOption);
+      this.setDeliveryType(selectedOption.name);
 
-      if (selectedOption === OPTIONS.GET_BY_MYSELF) {
+      if (this.isDefaultOption(selectedOption.name)) {
         this.setDeliveryAddress(null);
       }
 
-      if (!Object.values(OPTIONS).includes(selectedOption)) {
+      if (!this.isDefaultOption(selectedOption.name)) {
         const currentAddress = this.userAddresses.find(
-          (it) => it.name === selectedOption
+          (it) => it.id === selectedOption.id
         );
 
         this.setDeliveryAddress(currentAddress);
       }
+    },
+    deliveryFormInputHandler(inputName) {
+      const INPUT_HANDLER_MAP = {
+        street: this.updateStreetValue,
+        building: this.updateHouseValue,
+        flat: this.updateApartmentValue,
+        phone: this.updatePhoneValue,
+      };
+
+      return INPUT_HANDLER_MAP[inputName];
+    },
+    cartFormInputValue(formData) {
+      if (this.currentDeliveryAddress !== null) {
+        return this.currentDeliveryAddress[formData.inputName] ?? "";
+      }
+
+      return this.isDefaultOption
+        ? ""
+        : this.currentDeliveryAddress[formData.inputName];
     },
   },
 };

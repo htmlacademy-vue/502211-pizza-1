@@ -36,12 +36,8 @@ export default {
   },
   // дополнительные функции
   computed: {
-    ...mapState("Builder", ["pizzas"]),
+    ...mapState(["dough"]),
     ...mapState("Builder", ["currentDough"]),
-
-    dough() {
-      return this.pizzas.dough;
-    },
   },
   // добавили методы
   methods: {
