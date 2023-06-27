@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <AppLayout>
-      <RouterView />
+      <transition
+        name="view"
+        appear
+        enter-active-class="animate__animated animate__bounceInRight"
+      >
+        <RouterView />
+      </transition>
     </AppLayout>
   </div>
 </template>
