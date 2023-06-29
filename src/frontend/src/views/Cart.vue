@@ -18,7 +18,9 @@
 
         <CartForm />
 
-        <CartPopup v-if="showModal" />
+        <transition name="popup">
+          <CartPopup v-if="showModal" />
+        </transition>
       </div>
     </main>
 
@@ -101,4 +103,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.popup-enter-active,
+.popup-leave-active {
+  transition: opacity 0.5s;
+}
+
+.popup-enter,
+.popup-leave-to {
+  opacity: 0;
+}
+</style>

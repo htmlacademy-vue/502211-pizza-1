@@ -3,26 +3,28 @@
     <div class="pizza" :class="getCustomPizzaClass">
       <AppDrop>
         <div class="pizza__wrapper">
-          <template v-for="item in selectedIngredients">
-            <div
-              v-if="item.quantity > 0"
-              :key="`filling-one_${item.ingredientId}`"
-              class="pizza__filling"
-              :class="getPizzaFillingClass(item)"
-            />
-            <div
-              v-if="item.quantity > 1"
-              :key="`filling-two_${item.ingredientId}`"
-              class="pizza__filling"
-              :class="getPizzaFillingClassSecond(item)"
-            />
-            <div
-              v-if="item.quantity > 2"
-              :key="`filling-three_${item.ingredientId}`"
-              class="pizza__filling"
-              :class="getPizzaFillingClassThird(item)"
-            />
-          </template>
+          <transition-group name="filling">
+            <template v-for="item in selectedIngredients">
+              <div
+                v-if="item.quantity > 0"
+                :key="`filling-one_${item.ingredientId}`"
+                class="pizza__filling"
+                :class="getPizzaFillingClass(item)"
+              />
+              <div
+                v-if="item.quantity > 1"
+                :key="`filling-two_${item.ingredientId}`"
+                class="pizza__filling"
+                :class="getPizzaFillingClassSecond(item)"
+              />
+              <div
+                v-if="item.quantity > 2"
+                :key="`filling-three_${item.ingredientId}`"
+                class="pizza__filling"
+                :class="getPizzaFillingClassThird(item)"
+              />
+            </template>
+          </transition-group>
         </div>
       </AppDrop>
     </div>
@@ -91,4 +93,24 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.pizza__filling {
+  transition: all 0.5s;
+}
+
+.filling-enter,
+.filling-leave-to {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.filling-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.filling-move {
+  opacity: 1;
+  transition: all 0.5s;
+}
+</style>
