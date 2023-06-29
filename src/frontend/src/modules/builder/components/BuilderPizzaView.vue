@@ -94,22 +94,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.filling {
+.pizza__filling {
   transition: all 0.5s;
 }
 
-.filling-enter,
-.filling-leave-to {
+.pizza__filling-enter,
+.pizza__filling-leave-to {
   opacity: 0;
   transform: scale(0);
 }
 
-.filling-enter-to {
+.pizza__filling-enter-to {
   opacity: 1;
   transform: scale(1);
 }
 
-.filling-move {
+.pizza__filling-move {
   opacity: 1;
   transition: all 0.5s;
 }
