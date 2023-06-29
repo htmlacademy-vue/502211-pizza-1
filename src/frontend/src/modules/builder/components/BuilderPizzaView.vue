@@ -98,18 +98,18 @@ export default {
   transition: all 0.5s;
 }
 
-.pizza__filling-enter,
-.pizza__filling-leave-to {
+.filling-enter,
+.filling-leave-to {
   opacity: 0;
   transform: scale(0);
 }
 
-.pizza__filling-enter-to {
+.filling-enter-to {
   opacity: 1;
   transform: scale(1);
 }
 
-.pizza__filling-move {
+.filling-move {
   opacity: 1;
   transition: all 0.5s;
 }
