@@ -40,6 +40,8 @@ export default {
     PizzaView,
     PriceCounter,
   },
+  // указываем имя лейаута
+  layout: "AppLayoutMain",
 };
 </script>
 

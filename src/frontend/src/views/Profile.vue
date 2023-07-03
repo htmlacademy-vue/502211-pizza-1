@@ -56,6 +56,8 @@ import { addressProperySeparator } from "@/common/constants";
 import { mapState, mapMutations, mapActions } from "vuex";
 import { SET_EDITING_ADDRESS } from "@/store/mutation-types";
 
+import { auth } from "@/middlewares";
+
 export default {
   name: "Profile",
   // подключаем данные
@@ -75,6 +77,10 @@ export default {
     OrderUserInfo,
     OrderAddress,
   },
+  // указываем имя лейаута
+  layout: "AppLayoutSidebar",
+  // применяем мидлвары
+  middlewares: { auth },
   // дополнительные функции
   computed: {
     ...mapState("Orders", ["userAddresses"]),
