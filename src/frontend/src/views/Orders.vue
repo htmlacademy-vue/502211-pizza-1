@@ -19,12 +19,18 @@ import { SIDEBAR_MENU } from "@/common/constants";
 
 import { mapState } from "vuex";
 
+import { auth } from "@/middlewares";
+
 export default {
   name: "Orders",
   // подключаем компоненты
   components: {
     OrderSheet,
   },
+  // указываем имя лейаута
+  layout: "AppLayoutSidebar",
+  // применяем мидлвары
+  middlewares: { auth },
   // дополнительные функции
   computed: {
     ...mapState("Orders", ["userOrders"]),

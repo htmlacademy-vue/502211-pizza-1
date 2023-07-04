@@ -9,5 +9,5 @@ export default function auth({ next, store, nextMiddleware }) {
       next("/");
     }
   }
-  return nextMiddleware();
+  return nextMiddleware;
 }

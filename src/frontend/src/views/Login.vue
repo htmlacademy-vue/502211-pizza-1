@@ -15,12 +15,18 @@
 // импортируем компоненты
 import AuthForm from "@/modules/auth/components/AuthForm.vue";
 
+import { isLoggedIn } from "@/middlewares";
+
 export default {
   name: "Login",
   // подключаем компоненты
   components: {
     AuthForm,
   },
+  // указываем имя лейаута
+  layout: "AppLayoutEmpty",
+  // применяем мидлвары
+  middlewares: { isLoggedIn },
 };
 </script>
 
