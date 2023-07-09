@@ -20,7 +20,7 @@ import SidebarMenuItem from "@/common/components/SidebarMenuItem.vue";
 import { SIDEBAR_MENU } from "@/common/constants";
 
 export default {
-  name: "AppLayoutMain",
+  name: "AppSidebar",
   // подключаем компоненты
   components: {
     AppLayoutLogo,
