@@ -3,8 +3,8 @@
     <label class="input" :class="labelClass">
       <span :class="spanClass">{{ text }}</span>
       <input
-        ref="input"
         v-if="!slotProvided"
+        ref="input"
         :type="inputType"
         :name="inputName"
         :placeholder="placeholder"
